@@ -76,36 +76,81 @@ class SettingsSegmented<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
-    final track = Container(
-      padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        color: colors.softBlue,
-        borderRadius: BorderRadius.circular(AppRadius.chip),
-      ),
-      child: Row(
-        children: [
-          for (final option in options)
-            Expanded(
-              child: _Segment(
-                label: option.label,
-                selected: option.value == value,
-                onTap: () => onChanged(option.value),
-              ),
-            ),
-        ],
-      ),
-    );
-    if (title == null) return track;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(title!, style: context.text.body),
-        const SizedBox(height: AppSpacing.sm),
-        track,
-      ],
-    );
+    return _segmentedFrame(context, title, [
+      for (final option in options)
+        _Segment(
+          label: option.label,
+          selected: option.value == value,
+          onTap: () => onChanged(option.value),
+        ),
+    ]);
   }
+}
+
+/// Like [SettingsSegmented] but with a trailing segment that runs a custom
+/// action (e.g. "type your own value") instead of selecting a preset. That
+/// segment shows as selected whenever [value] matches none of the [options], and
+/// then carries [customLabel] (e.g. the typed value) rather than a fixed label.
+class SettingsSegmentedCustom<T> extends StatelessWidget {
+  const SettingsSegmentedCustom({
+    super.key,
+    this.title,
+    required this.options,
+    required this.value,
+    required this.onChanged,
+    required this.customLabel,
+    required this.onCustomTap,
+  });
+
+  final String? title;
+  final List<SettingsOption<T>> options;
+  final T value;
+  final ValueChanged<T> onChanged;
+  final String customLabel;
+  final VoidCallback onCustomTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final isCustom = !options.any((o) => o.value == value);
+    return _segmentedFrame(context, title, [
+      for (final option in options)
+        _Segment(
+          label: option.label,
+          selected: !isCustom && option.value == value,
+          onTap: () => onChanged(option.value),
+        ),
+      _Segment(label: customLabel, selected: isCustom, onTap: onCustomTap),
+    ]);
+  }
+}
+
+/// Wraps [segments] in the soft-blue segmented track, with an optional [title]
+/// above. Shared by [SettingsSegmented] and [SettingsSegmentedCustom] so the two
+/// can never drift apart.
+Widget _segmentedFrame(
+  BuildContext context,
+  String? title,
+  List<Widget> segments,
+) {
+  final track = Container(
+    padding: const EdgeInsets.all(4),
+    decoration: BoxDecoration(
+      color: context.colors.softBlue,
+      borderRadius: BorderRadius.circular(AppRadius.chip),
+    ),
+    child: Row(
+      children: [for (final segment in segments) Expanded(child: segment)],
+    ),
+  );
+  if (title == null) return track;
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(title, style: context.text.body),
+      const SizedBox(height: AppSpacing.sm),
+      track,
+    ],
+  );
 }
 
 class _Segment extends StatelessWidget {

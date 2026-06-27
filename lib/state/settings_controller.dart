@@ -21,11 +21,17 @@ class SettingsController extends ChangeNotifier {
   static const String _kWorkEndHour = 'work_end_hour';
   static const String _kSlotMinutes = 'slot_minutes';
 
-  /// Selectable "how long before" values, in minutes (15 dk · 30 dk · 1 sa · 1 gün).
-  static const List<int> reminderLeadOptions = <int>[15, 30, 60, 1440];
+  /// Selectable "how long before" values, in minutes (15 dk · 30 dk · 1 sa).
+  static const List<int> reminderLeadOptions = <int>[15, 30, 60];
 
-  /// Selectable slot intervals for the time chips, in minutes.
-  static const List<int> slotOptions = <int>[15, 30, 60];
+  /// The preset slot intervals offered as quick segments; any other stored value
+  /// is a custom interval the user typed in.
+  static const List<int> slotPresets = <int>[30, 60];
+
+  /// Bounds for a custom slot interval, in minutes — keeps the generated chip
+  /// list sane (never zero, never thousands of chips).
+  static const int minSlotMinutes = 5;
+  static const int maxSlotMinutes = 180;
 
   /// Earliest / latest hour the barber works (24h). Bounds the hour steppers.
   static const int minWorkHour = 6;
@@ -85,19 +91,30 @@ class SettingsController extends ChangeNotifier {
     await _save((p) => p.setInt(_kWorkEndHour, next));
   }
 
+  /// Sets the slot interval, clamped to [minSlotMinutes]–[maxSlotMinutes] so a
+  /// custom value can never empty the chip list (≤0) or flood it (tiny step).
   Future<void> setSlotMinutes(int minutes) async {
-    if (minutes == _slotMinutes) return;
-    _slotMinutes = minutes;
+    final next = minutes.clamp(minSlotMinutes, maxSlotMinutes);
+    if (next == _slotMinutes) return;
+    _slotMinutes = next;
     notifyListeners();
-    await _save((p) => p.setInt(_kSlotMinutes, minutes));
+    await _save((p) => p.setInt(_kSlotMinutes, next));
   }
 
   Future<void> _load() async {
     try {
       final p = await SharedPreferences.getInstance();
       _remindersEnabled = p.getBool(_kRemindersEnabled) ?? _remindersEnabled;
-      _reminderLeadMinutes = p.getInt(_kReminderLead) ?? _reminderLeadMinutes;
-      _slotMinutes = p.getInt(_kSlotMinutes) ?? _slotMinutes;
+      final lead = p.getInt(_kReminderLead) ?? _reminderLeadMinutes;
+      // Migrate a value that's no longer offered (e.g. the retired "1 gün") to the
+      // longest remaining option so the segmented control always has a selection.
+      _reminderLeadMinutes =
+          reminderLeadOptions.contains(lead) ? lead : reminderLeadOptions.last;
+      // Clamp on load too, so a stale or out-of-range stored value can't slip
+      // past the bounds that setSlotMinutes enforces.
+      _slotMinutes =
+          (p.getInt(_kSlotMinutes) ?? _slotMinutes)
+              .clamp(minSlotMinutes, maxSlotMinutes);
       // Read end before start so the start clamp below has the stored end to
       // validate against rather than the default.
       final end = p.getInt(_kWorkEndHour) ?? _workEndHour;
@@ -119,14 +136,9 @@ class SettingsController extends ChangeNotifier {
   }
 }
 
-/// Turkish label for a reminder lead time, e.g. 15 → "15 dakika", 60 → "1 saat",
-/// 1440 → "1 gün". Shared by the settings screen and the new-appointment hint so
-/// they never drift.
+/// Turkish label for a reminder lead time, e.g. 15 → "15 dakika", 60 → "1 saat".
+/// Shared by the settings screen and the new-appointment hint so they never drift.
 String reminderLeadLabel(int minutes) {
-  if (minutes >= 1440 && minutes % 1440 == 0) {
-    final days = minutes ~/ 1440;
-    return '$days gün';
-  }
   if (minutes >= 60 && minutes % 60 == 0) {
     final hours = minutes ~/ 60;
     return '$hours saat';

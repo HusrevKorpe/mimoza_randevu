@@ -94,9 +94,8 @@ class _ReminderSection extends StatelessWidget {
     );
   }
 
-  /// Compact label that fits a four-segment control: 60 → "1 sa", 1440 → "1 gün".
+  /// Compact label that fits the segmented control: 30 → "30 dk", 60 → "1 sa".
   static String _leadChip(int minutes) {
-    if (minutes >= 1440 && minutes % 1440 == 0) return '${minutes ~/ 1440} gün';
     if (minutes >= 60 && minutes % 60 == 0) return '${minutes ~/ 60} sa';
     return '$minutes dk';
   }
@@ -135,14 +134,102 @@ class _WorkingHoursSection extends StatelessWidget {
               ? () => settings.setWorkEndHour(end + 1)
               : null,
         ),
-        SettingsSegmented<int>(
+        SettingsSegmentedCustom<int>(
           title: 'Slot aralığı',
           value: settings.slotMinutes,
           onChanged: settings.setSlotMinutes,
-          options: [
-            for (final m in SettingsController.slotOptions)
-              SettingsOption(m, slotIntervalLabel(m)),
+          options: const [
+            SettingsOption(30, '30 dk'),
+            SettingsOption(60, '1 saat'),
           ],
+          // The custom segment shows "Özel" until a non-preset value is set,
+          // then displays that value (e.g. "45 dk").
+          customLabel: SettingsController.slotPresets.contains(settings.slotMinutes)
+              ? 'Özel'
+              : slotIntervalLabel(settings.slotMinutes),
+          onCustomTap: () => _editCustomSlot(context, settings),
+        ),
+      ],
+    );
+  }
+}
+
+/// Asks for a custom slot interval in minutes. The value is clamped by
+/// [SettingsController.setSlotMinutes], so out-of-range input still lands safely.
+Future<void> _editCustomSlot(
+  BuildContext context,
+  SettingsController settings,
+) async {
+  final minutes = await showDialog<int>(
+    context: context,
+    builder: (_) => _CustomSlotDialog(initial: settings.slotMinutes),
+  );
+  if (minutes != null) settings.setSlotMinutes(minutes);
+}
+
+/// Dialog that owns its [TextEditingController] so it is disposed with the State
+/// — after the route's exit animation fully completes — rather than the instant
+/// `showDialog` returns. Disposing it earlier would touch the field while it is
+/// still mounted and animating out (risking a "used after disposed" error).
+class _CustomSlotDialog extends StatefulWidget {
+  const _CustomSlotDialog({required this.initial});
+
+  final int initial;
+
+  @override
+  State<_CustomSlotDialog> createState() => _CustomSlotDialogState();
+}
+
+class _CustomSlotDialogState extends State<_CustomSlotDialog> {
+  late final TextEditingController _controller =
+      TextEditingController(text: widget.initial.toString());
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _submit() {
+    final value = int.tryParse(_controller.text.trim());
+    if (value != null) Navigator.pop(context, value);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Özel slot aralığı'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Dakika cinsinden gir '
+            '(${SettingsController.minSlotMinutes}–'
+            '${SettingsController.maxSlotMinutes}).',
+            style: context.text.helper,
+          ),
+          const SizedBox(height: AppSpacing.md),
+          TextField(
+            controller: _controller,
+            autofocus: true,
+            keyboardType: TextInputType.number,
+            decoration: const InputDecoration(
+              hintText: 'Örn. 45',
+              suffixText: 'dk',
+            ),
+            onSubmitted: (_) => _submit(),
+          ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Vazgeç'),
+        ),
+        TextButton(
+          onPressed: _submit,
+          child: const Text('Tamam'),
         ),
       ],
     );
