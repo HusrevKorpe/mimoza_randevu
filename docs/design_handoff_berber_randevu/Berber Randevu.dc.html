@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta name="design_doc_mode" content="canvas">
+<style>
+  * { box-sizing:border-box; }
+  body { margin:0; }
+</style>
+</helmet>
+
+<div data-drags-parent="1" style="position:absolute; left:24px; top:10px; width:1000px;">
+  <div style="font:800 30px Manrope,sans-serif; color:#1b2440; letter-spacing:-.01em;">Berber Randevu Defteri</div>
+  <div style="font:500 15px Manrope,sans-serif; color:#6b7280; margin-top:5px; max-width:760px;">iPhone · 3 stil yönü, hepsi açık tema. Sol→sağ: stiller. Yukarı→aşağı ekranlar — ana ekran widget'ı, randevu defteri (takvim + günün listesi), yeni randevu ve detay. Her randevuda rehbere kaydet ikonu var.</div>
+</div>
+
+<!-- ============ STİL A — SADE MODERN ============ -->
+<div data-drags-parent="1" style="position:absolute; left:24px; top:92px; width:414px;">
+  <div style="font:700 14px Manrope,sans-serif; letter-spacing:.14em; text-transform:uppercase; color:#2E55E6;">Stil A — Sade Modern</div>
+  <div style="font:500 13px Manrope,sans-serif; color:#8b93a5; margin-top:3px;">Mavi vurgu · yumuşak kartlar</div>
+</div>
+
+<!-- A1 : Home + Widget -->
+<div style="position:absolute; left:24px; top:148px;">
+  <div data-drags-parent="1" style="font:600 12px Manrope,sans-serif; letter-spacing:.1em; text-transform:uppercase; color:#9aa1b2; margin-bottom:12px; padding-left:6px;">Ana Ekran · Widget</div>
+  <div data-screen-label="A · Home" style="position:relative; width:390px; height:844px; border-radius:46px; overflow:hidden; background:linear-gradient(180deg,#c9d6f1 0%,#e3ebfa 52%,#eef3fc 100%); box-shadow:0 0 0 12px #111317, 0 0 0 13px #34373d, 0 26px 52px rgba(20,30,60,.22); font-family:Manrope,sans-serif;">
+    <div style="position:absolute; top:11px; left:50%; transform:translateX(-50%); width:118px; height:33px; background:#000; border-radius:18px; z-index:60;"></div>
+    <div style="position:absolute; top:0; left:0; right:0; z-index:40; height:50px; display:flex; align-items:flex-end; justify-content:space-between; padding:0 30px 8px; color:#16203A;">
+      <span style="font:700 15px Manrope,sans-serif;">9:41</span>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <svg width="18" height="11" viewBox="0 0 18 11" fill="currentColor"><rect x="0" y="6" width="3" height="5" rx="1"/><rect x="4.5" y="4" width="3" height="7" rx="1"/><rect x="9" y="2" width="3" height="9" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+        <svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1.2 4.4a10 10 0 0113.6 0"/><path d="M3.8 7a6 6 0 018.4 0"/></svg>
+        <div style="display:flex; align-items:center; gap:1.5px;"><div style="width:22px; height:11px; border:1.4px solid currentColor; border-radius:3px; padding:1.5px;"><div style="width:82%; height:100%; background:currentColor; border-radius:1px;"></div></div><div style="width:1.5px; height:4px; background:currentColor; border-radius:1px;"></div></div>
+      </div>
+    </div>
+
+    <div style="position:absolute; top:0; left:0; right:0; bottom:0; padding:62px 22px 0;">
+      <!-- WIDGET -->
+      <div style="background:#FFFFFF; border-radius:28px; padding:20px 22px; box-shadow:0 16px 34px rgba(30,50,110,.18);">
+        <div style="display:flex; align-items:center; justify-content:space-between;">
+          <div style="display:flex; align-items:center; gap:11px;">
+            <img src="logo.png" style="width:32px; height:32px; border-radius:9px;">
+            <span style="font:700 15px Manrope,sans-serif; color:#16203A;">Berber Defteri</span>
+          </div>
+          <span style="font:700 10px Manrope,sans-serif; letter-spacing:.1em; text-transform:uppercase; color:#2E55E6; background:#EAF0FF; padding:5px 11px; border-radius:20px;">Bugün</span>
+        </div>
+        <div style="display:flex; align-items:baseline; gap:8px; margin-top:16px;">
+          <span style="font:800 36px Manrope,sans-serif; color:#16203A; line-height:1;">3</span>
+          <span style="font:600 14px Manrope,sans-serif; color:#8A94AC;">randevu kaldı</span>
+        </div>
+        <div style="margin-top:16px; display:flex; flex-direction:column; gap:11px;">
+          <sc-for list="{{ widgetAppts }}" as="w" hint-placeholder-count="2">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <span style="font:800 13px Manrope,sans-serif; color:#2E55E6; min-width:44px;">{{ w.time }}</span>
+              <span style="font:600 13.5px Manrope,sans-serif; color:#46506A;">{{ w.name }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="text-align:center; margin-top:14px; font:600 11.5px Manrope,sans-serif; color:#6678a8;">Widget'a dokun → randevu defteri açılır</div>
+
+      <!-- APP ICONS -->
+      <div style="display:flex; justify-content:space-between; margin-top:30px; padding:0 4px;">
+        <div style="display:flex; flex-direction:column; align-items:center; gap:7px;">
+          <div style="width:60px; height:60px; border-radius:16px; background:#34C759; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 14px rgba(0,0,0,.12); color:#fff;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 10.8a13 13 0 006.6 6.6l2.2-2.2a1 1 0 011-.24 11 11 0 003.4.55 1 1 0 011 1V20a1 1 0 01-1 1A16 16 0 013 5a1 1 0 011-1h3.5a1 1 0 011 1 11 11 0 00.55 3.4 1 1 0 01-.24 1z"/></svg></div>
+          <span style="font:500 11px Manrope,sans-serif; color:#3c4a63;">Telefon</span>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:7px;">
+          <div style="width:60px; height:60px; border-radius:16px; background:#0A84FF; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 14px rgba(0,0,0,.12); color:#fff;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 01-12.2 7.6L3 21l1.9-5.8A8.5 8.5 0 1121 11.5z"/></svg></div>
+          <span style="font:500 11px Manrope,sans-serif; color:#3c4a63;">Mesajlar</span>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:7px;">
+          <div style="width:60px; height:60px; border-radius:16px; background:#8E8E93; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 14px rgba(0,0,0,.12); color:#fff;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20a7 7 0 0114 0"/></svg></div>
+          <span style="font:500 11px Manrope,sans-serif; color:#3c4a63;">Rehber</span>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:7px;">
+          <div style="position:relative; width:60px; height:60px; border-radius:16px; box-shadow:0 8px 18px rgba(46,85,230,.4), 0 0 0 3px rgba(46,85,230,.25); overflow:hidden;"><img src="logo.png" style="width:100%; height:100%; object-fit:cover;"></div>
+          <span style="font:700 11px Manrope,sans-serif; color:#2E55E6;">Defter</span>
+        </div>
+      </div>
+
+      <!-- DOCK -->
+      <div style="position:absolute; left:18px; right:18px; bottom:30px; height:96px; background:rgba(255,255,255,.55); backdrop-filter:blur(20px); border-radius:34px; display:flex; align-items:center; justify-content:space-around; padding:0 18px;">
+        <div style="width:58px; height:58px; border-radius:15px; background:#34C759; display:flex; align-items:center; justify-content:center; color:#fff;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 10.8a13 13 0 006.6 6.6l2.2-2.2a1 1 0 011-.24 11 11 0 003.4.55 1 1 0 011 1V20a1 1 0 01-1 1A16 16 0 013 5a1 1 0 011-1h3.5a1 1 0 011 1 11 11 0 00.55 3.4 1 1 0 01-.24 1z"/></svg></div>
+        <div style="width:58px; height:58px; border-radius:15px; background:#FF9500; display:flex; align-items:center; justify-content:center; color:#fff;"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+        <div style="width:58px; height:58px; border-radius:15px; background:#fff; display:flex; align-items:center; justify-content:center; color:#FF3B30;"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="16" rx="3"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3"/></svg></div>
+        <div style="width:58px; height:58px; border-radius:15px; background:#8E8E93; display:flex; align-items:center; justify-content:center; color:#fff;"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M21.5 12h-3M5.5 12h-3M18.4 5.6l-2 2M7.6 16.4l-2 2M18.4 18.4l-2-2M7.6 7.6l-2-2"/></svg></div>
+      </div>
+    </div>
+    <div style="position:absolute; bottom:9px; left:50%; transform:translateX(-50%); width:140px; height:5px; border-radius:3px; background:rgba(20,30,60,.55); z-index:60;"></div>
+  </div>
+</div>
+
+<!-- A2 : Randevu Defteri (takvim + liste) -->
+<div style="position:absolute; left:24px; top:1140px;">
+  <div data-drags-parent="1" style="font:600 12px Manrope,sans-serif; letter-spacing:.1em; text-transform:uppercase; color:#9aa1b2; margin-bottom:12px; padding-left:6px;">Randevu Defteri</div>
+  <div data-screen-label="A · Ana Ekran" style="position:relative; width:390px; height:844px; border-radius:46px; overflow:hidden; background:#F4F6FB; box-shadow:0 0 0 12px #111317, 0 0 0 13px #34373d, 0 26px 52px rgba(20,30,60,.22); font-family:Manrope,sans-serif;">
+    <div style="position:absolute; top:11px; left:50%; transform:translateX(-50%); width:118px; height:33px; background:#000; border-radius:18px; z-index:60;"></div>
+    <div style="position:absolute; top:0; left:0; right:0; z-index:40; height:50px; display:flex; align-items:flex-end; justify-content:space-between; padding:0 30px 8px; color:#16203A; background:#F4F6FB;">
+      <span style="font:700 15px Manrope,sans-serif;">9:41</span>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <svg width="18" height="11" viewBox="0 0 18 11" fill="currentColor"><rect x="0" y="6" width="3" height="5" rx="1"/><rect x="4.5" y="4" width="3" height="7" rx="1"/><rect x="9" y="2" width="3" height="9" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+        <svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1.2 4.4a10 10 0 0113.6 0"/><path d="M3.8 7a6 6 0 018.4 0"/></svg>
+        <div style="display:flex; align-items:center; gap:1.5px;"><div style="width:22px; height:11px; border:1.4px solid currentColor; border-radius:3px; padding:1.5px;"><div style="width:82%; height:100%; background:currentColor; border-radius:1px;"></div></div><div style="width:1.5px; height:4px; background:currentColor; border-radius:1px;"></div></div>
+      </div>
+    </div>
+
+    <div style="position:absolute; top:50px; left:0; right:0; bottom:0; overflow:hidden;">
+      <!-- header -->
+      <div style="padding:8px 22px 0; display:flex; align-items:flex-start; justify-content:space-between;">
+        <div>
+          <div style="font:600 11px Manrope,sans-serif; letter-spacing:.1em; text-transform:uppercase; color:#8A94AC;">Randevu Defteri</div>
+          <div style="font:800 24px Manrope,sans-serif; color:#16203A; margin-top:3px;">Haziran 2026</div>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button style="width:38px; height:38px; border:none; border-radius:12px; background:#fff; color:#46506A; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(20,30,60,.06);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+          <button style="width:38px; height:38px; border:none; border-radius:12px; background:#fff; color:#46506A; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(20,30,60,.06);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+        </div>
+      </div>
+
+      <!-- calendar -->
+      <div style="margin:16px 18px 0; background:#fff; border-radius:22px; padding:14px 12px 10px; box-shadow:0 10px 26px rgba(20,30,60,.06);">
+        <div style="display:grid; grid-template-columns:repeat(7,1fr); margin-bottom:4px;">
+          <div style="text-align:center; font:700 11px Manrope,sans-serif; color:#B6BCCB;">Pt</div>
+          <div style="text-align:center; font:700 11px Manrope,sans-serif; color:#B6BCCB;">Sa</div>
+          <div style="text-align:center; font:700 11px Manrope,sans-serif; color:#B6BCCB;">Ça</div>
+          <div style="text-align:center; font:700 11px Manrope,sans-serif; color:#B6BCCB;">Pe</div>
+          <div style="text-align:center; font:700 11px Manrope,sans-serif; color:#B6BCCB;">Cu</div>
+          <div style="text-align:center; font:700 11px Manrope,sans-serif; color:#B6BCCB;">Ct</div>
+          <div style="text-align:center; font:700 11px Manrope,sans-serif; color:#B6BCCB;">Pz</div>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(7,1fr);">
+          <sc-for list="{{ monthDays }}" as="cell" hint-placeholder-count="30">
+            <div style="position:relative; height:40px; display:flex; align-items:center; justify-content:center;">
+              <sc-if value="{{ cell.today }}" hint-placeholder-val="{{ false }}">
+                <div style="position:absolute; width:34px; height:34px; background:#2E55E6; border-radius:12px; box-shadow:0 6px 14px rgba(46,85,230,.4);"></div>
+                <span style="position:relative; z-index:2; font:700 14px Manrope,sans-serif; color:#fff;">{{ cell.n }}</span>
+              </sc-if>
+              <sc-if value="{{ cell.notToday }}" hint-placeholder-val="{{ true }}">
+                <span style="position:relative; z-index:2; font:600 14px Manrope,sans-serif; color:#39435c;">{{ cell.n }}</span>
+              </sc-if>
+              <sc-if value="{{ cell.dot }}" hint-placeholder-val="{{ false }}">
+                <div style="position:absolute; bottom:5px; width:5px; height:5px; border-radius:50%; background:#2E55E6;"></div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <!-- day list header -->
+      <div style="display:flex; align-items:center; justify-content:space-between; padding:20px 24px 10px;">
+        <span style="font:800 16px Manrope,sans-serif; color:#16203A;">Cuma, 26 Haziran</span>
+        <span style="font:600 12px Manrope,sans-serif; color:#8A94AC;">5 randevu</span>
+      </div>
+
+      <!-- list -->
+      <div style="padding:0 18px; display:flex; flex-direction:column; gap:10px;">
+        <sc-for list="{{ appts }}" as="a" hint-placeholder-count="5">
+          <div style="display:flex; align-items:center; gap:13px; background:#fff; border-radius:18px; padding:12px 13px; box-shadow:0 6px 16px rgba(20,30,60,.05);">
+            <span style="font:800 16px Manrope,sans-serif; color:#16203A; min-width:50px;">{{ a.time }}</span>
+            <div style="width:1px; height:32px; background:#EEF1F7;"></div>
+            <div style="flex:1; min-width:0;">
+              <div style="font:700 14.5px Manrope,sans-serif; color:#16203A;">{{ a.name }}</div>
+              <div style="font:500 12px Manrope,sans-serif; color:#8A94AC; margin-top:2px;">{{ a.phone }}</div>
+            </div>
+            <button style="width:37px; height:37px; border:none; border-radius:12px; background:#F0F3FA; color:#46506A; display:flex; align-items:center; justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 10.8a13 13 0 006.6 6.6l2.2-2.2a1 1 0 011-.24 11 11 0 003.4.55 1 1 0 011 1V20a1 1 0 01-1 1A16 16 0 013 5a1 1 0 011-1h3.5a1 1 0 011 1 11 11 0 00.55 3.4 1 1 0 01-.24 1z"/></svg></button>
+            <button style="width:37px; height:37px; border:none; border-radius:12px; background:#EAF0FF; color:#2E55E6; display:flex; align-items:center; justify-content:center;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.4"/><path d="M3.5 19.5a6 6 0 0111 0"/><path d="M18.5 7v5M16 9.5h5"/></svg></button>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- FAB -->
+    <div style="position:absolute; right:22px; bottom:30px; width:60px; height:60px; border-radius:20px; background:#2E55E6; box-shadow:0 14px 26px rgba(46,85,230,.45); display:flex; align-items:center; justify-content:center; color:#fff; z-index:50;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
+    <div style="position:absolute; bottom:9px; left:50%; transform:translateX(-50%); width:140px; height:5px; border-radius:3px; background:rgba(20,30,60,.55); z-index:60;"></div>
+  </div>
+</div>
+
+<!-- A3 : Yeni Randevu -->
+<div style="position:absolute; left:24px; top:2132px;">
+  <div data-drags-parent="1" style="font:600 12px Manrope,sans-serif; letter-spacing:.1em; text-transform:uppercase; color:#9aa1b2; margin-bottom:12px; padding-left:6px;">Yeni Randevu</div>
+  <div data-screen-label="A · Yeni Randevu" style="position:relative; width:390px; height:844px; border-radius:46px; overflow:hidden; background:#F4F6FB; box-shadow:0 0 0 12px #111317, 0 0 0 13px #34373d, 0 26px 52px rgba(20,30,60,.22); font-family:Manrope,sans-serif;">
+    <div style="position:absolute; top:11px; left:50%; transform:translateX(-50%); width:118px; height:33px; background:#000; border-radius:18px; z-index:60;"></div>
+    <div style="position:absolute; top:0; left:0; right:0; z-index:40; height:50px; display:flex; align-items:flex-end; justify-content:space-between; padding:0 30px 8px; color:#16203A; background:#F4F6FB;">
+      <span style="font:700 15px Manrope,sans-serif;">9:41</span>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <svg width="18" height="11" viewBox="0 0 18 11" fill="currentColor"><rect x="0" y="6" width="3" height="5" rx="1"/><rect x="4.5" y="4" width="3" height="7" rx="1"/><rect x="9" y="2" width="3" height="9" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+        <svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1.2 4.4a10 10 0 0113.6 0"/><path d="M3.8 7a6 6 0 018.4 0"/></svg>
+        <div style="display:flex; align-items:center; gap:1.5px;"><div style="width:22px; height:11px; border:1.4px solid currentColor; border-radius:3px; padding:1.5px;"><div style="width:82%; height:100%; background:currentColor; border-radius:1px;"></div></div><div style="width:1.5px; height:4px; background:currentColor; border-radius:1px;"></div></div>
+      </div>
+    </div>
+
+    <div style="position:absolute; top:50px; left:0; right:0; bottom:0; overflow:hidden;">
+      <div style="display:flex; align-items:center; gap:14px; padding:8px 22px 4px;">
+        <button style="width:38px; height:38px; border:none; border-radius:12px; background:#fff; color:#46506A; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(20,30,60,.06);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+        <span style="font:800 20px Manrope,sans-serif; color:#16203A;">Yeni Randevu</span>
+      </div>
+
+      <div style="padding:14px 22px 0; display:flex; flex-direction:column; gap:18px;">
+        <!-- isim + rehber -->
+        <div>
+          <label style="font:700 11px Manrope,sans-serif; letter-spacing:.08em; text-transform:uppercase; color:#8A94AC;">İsim</label>
+          <div style="display:flex; gap:10px; margin-top:8px;">
+            <div style="flex:1; background:#fff; border:1.5px solid #E6EBF5; border-radius:14px; padding:14px 16px; font:600 15px Manrope,sans-serif; color:#16203A;">Emre Kaya</div>
+            <button style="width:54px; border:none; border-radius:14px; background:#2E55E6; color:#fff; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 16px rgba(46,85,230,.32);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.4"/><path d="M3.5 19.5a6 6 0 0111 0"/><path d="M18.5 7v5M16 9.5h5"/></svg></button>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px; margin-top:8px; font:600 11.5px Manrope,sans-serif; color:#2E55E6;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"/><path d="M5 20a7 7 0 0114 0"/></svg>
+            Rehberden seç — isim ve numara otomatik gelsin
+          </div>
+        </div>
+
+        <!-- telefon -->
+        <div>
+          <label style="font:700 11px Manrope,sans-serif; letter-spacing:.08em; text-transform:uppercase; color:#8A94AC;">Telefon</label>
+          <div style="display:flex; align-items:center; gap:11px; margin-top:8px; background:#fff; border:1.5px solid #E6EBF5; border-radius:14px; padding:14px 16px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A94AC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 10.8a13 13 0 006.6 6.6l2.2-2.2a1 1 0 011-.24 11 11 0 003.4.55 1 1 0 011 1V20a1 1 0 01-1 1A16 16 0 013 5a1 1 0 011-1h3.5a1 1 0 011 1 11 11 0 00.55 3.4 1 1 0 01-.24 1z"/></svg>
+            <span style="font:600 15px Manrope,sans-serif; color:#16203A;">0532 412 88 90</span>
+          </div>
+        </div>
+
+        <!-- tarih -->
+        <div>
+          <label style="font:700 11px Manrope,sans-serif; letter-spacing:.08em; text-transform:uppercase; color:#8A94AC;">Tarih</label>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-top:8px; background:#fff; border:1.5px solid #E6EBF5; border-radius:14px; padding:14px 16px;">
+            <span style="font:600 15px Manrope,sans-serif; color:#16203A;">Cuma, 26 Haziran 2026</span>
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#2E55E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="16" rx="3"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3"/></svg>
+          </div>
+        </div>
+
+        <!-- saat -->
+        <div>
+          <label style="font:700 11px Manrope,sans-serif; letter-spacing:.08em; text-transform:uppercase; color:#8A94AC;">Saat</label>
+          <div style="display:flex; flex-wrap:wrap; gap:9px; margin-top:10px;">
+            <div style="font:600 14px Manrope,sans-serif; color:#46506A; background:#fff; border:1.5px solid #E6EBF5; border-radius:12px; padding:10px 16px;">09:00</div>
+            <div style="font:700 14px Manrope,sans-serif; color:#fff; background:#2E55E6; border:1.5px solid #2E55E6; border-radius:12px; padding:10px 16px; box-shadow:0 8px 16px rgba(46,85,230,.3);">09:30</div>
+            <div style="font:600 14px Manrope,sans-serif; color:#46506A; background:#fff; border:1.5px solid #E6EBF5; border-radius:12px; padding:10px 16px;">10:00</div>
+            <div style="font:600 14px Manrope,sans-serif; color:#46506A; background:#fff; border:1.5px solid #E6EBF5; border-radius:12px; padding:10px 16px;">10:30</div>
+            <div style="font:600 14px Manrope,sans-serif; color:#46506A; background:#fff; border:1.5px solid #E6EBF5; border-radius:12px; padding:10px 16px;">11:00</div>
+            <div style="font:600 14px Manrope,sans-serif; color:#46506A; background:#fff; border:1.5px solid #E6EBF5; border-radius:12px; padding:10px 16px;">11:30</div>
+          </div>
+        </div>
+      </div>
+
+      <button style="position:absolute; left:22px; right:22px; bottom:30px; background:#2E55E6; color:#fff; border:none; border-radius:18px; padding:17px; font:700 16px Manrope,sans-serif; box-shadow:0 14px 26px rgba(46,85,230,.4); display:flex; align-items:center; justify-content:center; gap:9px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        Randevuyu Kaydet
+      </button>
+    </div>
+    <div style="position:absolute; bottom:9px; left:50%; transform:translateX(-50%); width:140px; height:5px; border-radius:3px; background:rgba(20,30,60,.55); z-index:60;"></div>
+  </div>
+</div>
+
+<!-- A4 : Randevu Detayı -->
+<div style="position:absolute; left:24px; top:3124px;">
+  <div data-drags-parent="1" style="font:600 12px Manrope,sans-serif; letter-spacing:.1em; text-transform:uppercase; color:#9aa1b2; margin-bottom:12px; padding-left:6px;">Randevu Detayı</div>
+  <div data-screen-label="A · Detay" style="position:relative; width:390px; height:844px; border-radius:46px; overflow:hidden; background:#F4F6FB; box-shadow:0 0 0 12px #111317, 0 0 0 13px #34373d, 0 26px 52px rgba(20,30,60,.22); font-family:Manrope,sans-serif;">
+    <div style="position:absolute; top:11px; left:50%; transform:translateX(-50%); width:118px; height:33px; background:#000; border-radius:18px; z-index:60;"></div>
+    <div style="position:absolute; top:0; left:0; right:0; z-index:40; height:50px; display:flex; align-items:flex-end; justify-content:space-between; padding:0 30px 8px; color:#16203A; background:#F4F6FB;">
+      <span style="font:700 15px Manrope,sans-serif;">9:41</span>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <svg width="18" height="11" viewBox="0 0 18 11" fill="currentColor"><rect x="0" y="6" width="3" height="5" rx="1"/><rect x="4.5" y="4" width="3" height="7" rx="1"/><rect x="9" y="2" width="3" height="9" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+        <svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1.2 4.4a10 10 0 0113.6 0"/><path d="M3.8 7a6 6 0 018.4 0"/></svg>
+        <div style="display:flex; align-items:center; gap:1.5px;"><div style="width:22px; height:11px; border:1.4px solid currentColor; border-radius:3px; padding:1.5px;"><div style="width:82%; height:100%; background:currentColor; border-radius:1px;"></div></div><div style="width:1.5px; height:4px; background:currentColor; border-radius:1px;"></div></div>
+      </div>
+    </div>
+
+    <div style="position:absolute; top:50px; left:0; right:0; bottom:0; overflow:hidden;">
+      <div style="display:flex; align-items:center; justify-content:space-between; padding:8px 22px 4px;">
+        <button style="width:38px; height:38px; border:none; border-radius:12px; background:#fff; color:#46506A; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(20,30,60,.06);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+        <button style="width:38px; height:38px; border:none; border-radius:12px; background:#fff; color:#46506A; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(20,30,60,.06);"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L18.5 9.5a2 2 0 00-3-3L5 17v3z"/><path d="M13.5 6.5l3 3"/></svg></button>
+      </div>
+
+      <div style="padding:18px 22px 0; display:flex; flex-direction:column; align-items:center;">
+        <div style="width:84px; height:84px; border-radius:28px; background:linear-gradient(135deg,#2E55E6,#5b7bf0); display:flex; align-items:center; justify-content:center; font:800 30px Manrope,sans-serif; color:#fff; box-shadow:0 14px 28px rgba(46,85,230,.35);">EK</div>
+        <div style="font:800 26px Manrope,sans-serif; color:#16203A; margin-top:16px;">Emre Kaya</div>
+        <div style="display:flex; gap:9px; margin-top:14px;">
+          <span style="display:flex; align-items:center; gap:6px; font:700 13px Manrope,sans-serif; color:#2E55E6; background:#EAF0FF; padding:8px 14px; border-radius:30px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>09:30</span>
+          <span style="display:flex; align-items:center; gap:6px; font:700 13px Manrope,sans-serif; color:#46506A; background:#fff; padding:8px 14px; border-radius:30px; box-shadow:0 4px 12px rgba(20,30,60,.06);"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="16" rx="3"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3"/></svg>26 Haziran</span>
+        </div>
+      </div>
+
+      <div style="margin:24px 22px 0; background:#fff; border-radius:20px; padding:6px 18px; box-shadow:0 8px 22px rgba(20,30,60,.06);">
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:14px 0;">
+          <div style="display:flex; align-items:center; gap:13px;">
+            <div style="width:42px; height:42px; border-radius:13px; background:#F0F3FA; color:#46506A; display:flex; align-items:center; justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 10.8a13 13 0 006.6 6.6l2.2-2.2a1 1 0 011-.24 11 11 0 003.4.55 1 1 0 011 1V20a1 1 0 01-1 1A16 16 0 013 5a1 1 0 011-1h3.5a1 1 0 011 1 11 11 0 00.55 3.4 1 1 0 01-.24 1z"/></svg></div>
+            <div>
+              <div style="font:500 11px Manrope,sans-serif; color:#8A94AC;">Telefon</div>
+              <div style="font:700 15px Manrope,sans-serif; color:#16203A; margin-top:1px;">0532 412 88 90</div>
+            </div>
+          </div>
+          <button style="font:700 13px Manrope,sans-serif; color:#fff; background:#34C759; border:none; border-radius:12px; padding:10px 18px;">Ara</button>
+        </div>
+      </div>
+
+      <button style="margin:18px 22px 0; width:calc(100% - 44px); background:#2E55E6; color:#fff; border:none; border-radius:18px; padding:17px; font:700 16px Manrope,sans-serif; box-shadow:0 14px 26px rgba(46,85,230,.4); display:flex; align-items:center; justify-content:center; gap:10px;">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.4"/><path d="M3.5 19.5a6 6 0 0111 0"/><path d="M18.5 7v5M16 9.5h5"/></svg>
+        Rehbere Kaydet
+      </button>
+
+      <div style="display:flex; gap:11px; padding:12px 22px 0;">
+        <button style="flex:1; background:#fff; color:#46506A; border:none; border-radius:15px; padding:14px; font:700 14px Manrope,sans-serif; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 6px 16px rgba(20,30,60,.05);"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L18.5 9.5a2 2 0 00-3-3L5 17v3z"/><path d="M13.5 6.5l3 3"/></svg>Düzenle</button>
+        <button style="flex:1; background:#fff; color:#FF3B30; border:none; border-radius:15px; padding:14px; font:700 14px Manrope,sans-serif; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 6px 16px rgba(20,30,60,.05);"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V5a1.5 1.5 0 011.5-1.5h3A1.5 1.5 0 0115 5v2M6 7l1 13a2 2 0 002 2h6a2 2 0 002-2l1-13"/></svg>Sil</button>
+      </div>
+    </div>
+    <div style="position:absolute; bottom:9px; left:50%; transform:translateX(-50%); width:140px; height:5px; border-radius:3px; background:rgba(20,30,60,.55); z-index:60;"></div>
+  </div>
+</div>
+<!-- ============ STİL B — SICAK KLASİK ============ -->
+<div data-drags-parent="1" style="position:absolute; left:524px; top:92px; width:414px;">
+  <div style="font:700 14px 'Hanken Grotesk',sans-serif; letter-spacing:.14em; text-transform:uppercase; color:#B26A36;">Stil B — Sıcak Klasik</div>
+  <div style="font:500 13px 'Hanken Grotesk',sans-serif; color:#9a8a75; margin-top:3px;">Serif başlıklar · bakır vurgu</div>
+</div>
+
+<!-- B1 : Home + Widget -->
+<div style="position:absolute; left:524px; top:148px;">
+  <div data-drags-parent="1" style="font:600 12px 'Hanken Grotesk',sans-serif; letter-spacing:.1em; text-transform:uppercase; color:#b3a48f; margin-bottom:12px; padding-left:6px;">Ana Ekran · Widget</div>
+  <div data-screen-label="B · Home" style="position:relative; width:390px; height:844px; border-radius:46px; overflow:hidden; background:linear-gradient(180deg,#e7d6ba 0%,#f1e6d2 52%,#f6efe4 100%); box-shadow:0 0 0 12px #1a1611, 0 0 0 13px #3b342a, 0 26px 52px rgba(60,45,25,.22); font-family:'Hanken Grotesk',sans-serif;">
+    <div style="position:absolute; top:11px; left:50%; transform:translateX(-50%); width:118px; height:33px; background:#000; border-radius:18px; z-index:60;"></div>
+    <div style="position:absolute; top:0; left:0; right:0; z-index:40; height:50px; display:flex; align-items:flex-end; justify-content:space-between; padding:0 30px 8px; color:#2B2118;">
+      <span style="font:700 15px 'Hanken Grotesk',sans-serif;">9:41</span>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <svg width="18" height="11" viewBox="0 0 18 11" fill="currentColor"><rect x="0" y="6" width="3" height="5" rx="1"/><rect x="4.5" y="4" width="3" height="7" rx="1"/><rect x="9" y="2" width="3" height="9" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+        <svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1.2 4.4a10 10 0 0113.6 0"/><path d="M3.8 7a6 6 0 018.4 0"/></svg>
+        <div style="display:flex; align-items:center; gap:1.5px;"><div style="width:22px; height:11px; border:1.4px solid currentColor; border-radius:3px; padding:1.5px;"><div style="width:82%; height:100%; background:currentColor; border-radius:1px;"></div></div><div style="width:1.5px; height:4px; background:currentColor; border-radius:1px;"></div></div>
+      </div>
+    </div>
+
+    <div style="position:absolute; top:0; left:0; right:0; bottom:0; padding:62px 22px 0;">
+      <div style="background:#FFFDF8; border-radius:24px; padding:22px; box-shadow:0 16px 34px rgba(60,45,25,.16); border:1px solid #EADDC8;">
+        <div style="display:flex; align-items:center; justify-content:space-between;">
+          <div style="display:flex; align-items:center; gap:11px;">
+            <img src="logo.png" style="width:32px; height:32px; border-radius:9px;">
+            <span style="font:600 16px 'Newsreader',serif; color:#2B2118;">Berber Defteri</span>
+          </div>
+          <span style="font:700 10px 'Hanken Grotesk',sans-serif; letter-spacing:.12em; text-transform:uppercase; color:#B26A36; border:1px solid #E2C39C; padding:5px 11px; border-radius:4px;">Bugün</span>
+        </div>
+        <div style="display:flex; align-items:baseline; gap:9px; margin-top:18px;">
+          <span style="font:600 42px 'Newsreader',serif; color:#2B2118; line-height:.9;">3</span>
+          <span style="font:500 14px 'Hanken Grotesk',sans-serif; color:#9A8A75;">randevu kaldı</span>
+        </div>
+        <div style="height:1px; background:#EADDC8; margin:16px 0;"></div>
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <sc-for list="{{ widgetAppts }}" as="w" hint-placeholder-count="2">
+            <div style="display:flex; align-items:center; gap:14px;">
+              <span style="font:600 16px 'Newsreader',serif; color:#B26A36; min-width:48px;">{{ w.time }}</span>
+              <span style="font:500 14px 'Hanken Grotesk',sans-serif; color:#4a3f30;">{{ w.name }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="text-align:center; margin-top:14px; font:500 11.5px 'Hanken Grotesk',sans-serif; color:#9a8a75;">Widget'a dokun → randevu defteri açılır</div>
+
+      <div style="display:flex; justify-content:space-between; margin-top:30px; padding:0 4px;">
+        <div style="display:flex; flex-direction:column; align-items:center; gap:7px;">
+          <div style="width:60px; height:60px; border-radius:16px; background:#34C759; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 14px rgba(0,0,0,.12); color:#fff;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 10.8a13 13 0 006.6 6.6l2.2-2.2a1 1 0 011-.24 11 11 0 003.4.55 1 1 0 011 1V20a1 1 0 01-1 1A16 16 0 013 5a1 1 0 011-1h3.5a1 1 0 011 1 11 11 0 00.55 3.4 1 1 0 01-.24 1z"/></svg></div>
+          <span style="font:500 11px 'Hanken Grotesk',sans-serif; color:#5a4f3e;">Telefon</span>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:7px;">
+          <div style="width:60px; height:60px; border-radius:16px; background:#0A84FF; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 14px rgba(0,0,0,.12); color:#fff;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 01-12.2 7.6L3 21l1.9-5.8A8.5 8.5 0 1121 11.5z"/></svg></div>
+          <span style="font:500 11px 'Hanken Grotesk',sans-serif; color:#5a4f3e;">Mesajlar</span>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:7px;">
+          <div style="width:60px; height:60px; border-radius:16px; background:#8E8E93; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 14px rgba(0,0,0,.12); color:#fff;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20a7 7 0 0114 0"/></svg></div>
+          <span style="font:500 11px 'Hanken Grotesk',sans-serif; color:#5a4f3e;">Rehber</span>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:7px;">
+          <div style="position:relative; width:60px; height:60px; border-radius:16px; box-shadow:0 8px 18px rgba(178,106,54,.4), 0 0 0 3px rgba(178,106,54,.28); overflow:hidden;"><img src="logo.png" style="width:100%; height:100%; object-fit:cover;"></div>
+          <span style="font:700 11px 'Hanken Grotesk',sans-serif; color:#B26A36;">Defter</span>
+        </div>
+      </div>
+
+      <div style="position:absolute; left:18px; right:18px; bottom:30px; height:96px; background:rgba(255,253,248,.6); backdrop-filter:blur(20px); border-radius:34px; display:flex; align-items:center; justify-content:space-around; padding:0 18px; border:1px solid rgba(234,221,200,.7);">
+        <div style="width:58px; height:58px; border-radius:15px; background:#34C759; display:flex; align-items:center; justify-content:center; color:#fff;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 10.8a13 13 0 006.6 6.6l2.2-2.2a1 1 0 011-.24 11 11 0 003.4.55 1 1 0 011 1V20a1 1 0 01-1 1A16 16 0 013 5a1 1 0 011-1h3.5a1 1 0 011 1 11 11 0 00.55 3.4 1 1 0 01-.24 1z"/></svg></div>
+        <div style="width:58px; height:58px; border-radius:15px; background:#FF9500; display:flex; align-items:center; justify-content:center; color:#fff;"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+        <div style="width:58px; height:58px; border-radius:15px; background:#FFFDF8; display:flex; align-items:center; justify-content:center; color:#9C3B33;"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="16" rx="3"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3"/></svg></div>
+        <div style="width:58px; height:58px; border-radius:15px; background:#8E8E93; display:flex; align-items:center; justify-content:center; color:#fff;"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M21.5 12h-3M5.5 12h-3M18.4 5.6l-2 2M7.6 16.4l-2 2M18.4 18.4l-2-2M7.6 7.6l-2-2"/></svg></div>
+      </div>
+    </div>
+    <div style="position:absolute; bottom:9px; left:50%; transform:translateX(-50%); width:140px; height:5px; border-radius:3px; background:rgba(60,45,25,.55); z-index:60;"></div>
+  </div>
+</div>
+
+<!-- B2 : Randevu Defteri -->
+<div style="position:absolute; left:524px; top:1140px;">
+  <div data-drags-parent="1" style="font:600 12px 'Hanken Grotesk',sans-serif; letter-spacing:.1em; text-transform:uppercase; color:#b3a48f; margin-bottom:12px; padding-left:6px;">Randevu Defteri</div>
+  <div data-screen-label="B · Ana Ekran" style="position:relative; width:390px; height:844px; border-radius:46px; overflow:hidden; background:#F6EFE4; box-shadow:0 0 0 12px #1a1611, 0 0 0 13px #3b342a, 0 26px 52px rgba(60,45,25,.22); font-family:'Hanken Grotesk',sans-serif;">
+    <div style="position:absolute; top:11px; left:50%; transform:translateX(-50%); width:118px; height:33px; background:#000; border-radius:18px; z-index:60;"></div>
+    <div style="position:absolute; top:0; left:0; right:0; z-index:40; height:50px; display:flex; align-items:flex-end; justify-content:space-between; padding:0 30px 8px; color:#2B2118; background:#F6EFE4;">
+      <span style="font:700 15px 'Hanken Grotesk',sans-serif;">9:41</span>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <svg width="18" height="11" viewBox="0 0 18 11" fill="currentColor"><rect x="0" y="6" width="3" height="5" rx="1"/><rect x="4.5" y="4" width="3" height="7" rx="1"/><rect x="9" y="2" width="3" height="9" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+        <svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1.2 4.4a10 10 0 0113.6 0"/><path d="M3.8 7a6 6 0 018.4 0"/></svg>
+        <div style="display:flex; align-items:center; gap:1.5px;"><div style="width:22px; height:11px; border:1.4px solid currentColor; border-radius:3px; padding:1.5px;"><div style="width:82%; height:100%; background:currentColor; border-radius:1px;"></div></div><div style="width:1.5px; height:4px; background:currentColor; border-radius:1px;"></div></div>
+      </div>
+    </div>
+
+    <div style="position:absolute; top:50px; left:0; right:0; bottom:0; overflow:hidden;">
+      <div style="padding:8px 24px 0; display:flex; align-items:flex-end; justify-content:space-between;">
+        <div>
+          <div style="font:600 11px 'Hanken Grotesk',sans-serif; letter-spacing:.12em; text-transform:uppercase; color:#B26A36;">Randevu Defteri</div>
+          <div style="font:600 28px 'Newsreader',serif; color:#2B2118; margin-top:3px;">Haziran 2026</div>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button style="width:38px; height:38px; border:1px solid #E2D4BD; border-radius:11px; background:#FFFDF8; color:#7a6b56; display:flex; align-items:center; justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+          <button style="width:38px; height:38px; border:1px solid #E2D4BD; border-radius:11px; background:#FFFDF8; color:#7a6b56; display:flex; align-items:center; justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+        </div>
+      </div>
+
+      <div style="margin:16px 18px 0; background:#FFFDF8; border-radius:18px; padding:14px 12px 10px; border:1px solid #EADDC8;">
+        <div style="display:grid; grid-template-columns:repeat(7,1fr); margin-bottom:4px;">
+          <div style="text-align:center; font:600 11px 'Hanken Grotesk',sans-serif; color:#C2B49C;">Pt</div>
+          <div style="text-align:center; font:600 11px 'Hanken Grotesk',sans-serif; color:#C2B49C;">Sa</div>
+          <div style="text-align:center; font:600 11px 'Hanken Grotesk',sans-serif; color:#C2B49C;">Ça</div>
+          <div style="text-align:center; font:600 11px 'Hanken Grotesk',sans-serif; color:#C2B49C;">Pe</div>
+          <div style="text-align:center; font:600 11px 'Hanken Grotesk',sans-serif; color:#C2B49C;">Cu</div>
+          <div style="text-align:center; font:600 11px 'Hanken Grotesk',sans-serif; color:#C2B49C;">Ct</div>
+          <div style="text-align:center; font:600 11px 'Hanken Grotesk',sans-serif; color:#C2B49C;">Pz</div>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(7,1fr);">
+          <sc-for list="{{ monthDays }}" as="cell" hint-placeholder-count="30">
+            <div style="position:relative; height:40px; display:flex; align-items:center; justify-content:center;">
+              <sc-if value="{{ cell.today }}" hint-placeholder-val="{{ false }}">
+                <div style="position:absolute; width:34px; height:34px; border:1.6px solid #B26A36; border-radius:50%;"></div>
+                <span style="position:relative; z-index:2; font:600 15px 'Newsreader',serif; color:#B26A36;">{{ cell.n }}</span>
+              </sc-if>
+              <sc-if value="{{ cell.notToday }}" hint-placeholder-val="{{ true }}">
+                <span style="position:relative; z-index:2; font:500 15px 'Newsreader',serif; color:#41382b;">{{ cell.n }}</span>
+              </sc-if>
+              <sc-if value="{{ cell.dot }}" hint-placeholder-val="{{ false }}">
+                <div style="position:absolute; bottom:5px; width:5px; height:5px; border-radius:50%; background:#B26A36;"></div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="display:flex; align-items:baseline; justify-content:space-between; padding:20px 24px 8px;">
+        <span style="font:600 19px 'Newsreader',serif; color:#2B2118;">Cuma, 26 Haziran</span>
+        <span style="font:500 12px 'Hanken Grotesk',sans-serif; color:#9A8A75;">5 randevu</span>
+      </div>
+
+      <div style="margin:0 18px; background:#FFFDF8; border-radius:18px; border:1px solid #EADDC8; overflow:hidden;">
+        <sc-for list="{{ appts }}" as="a" hint-placeholder-count="5">
+          <div style="display:flex; align-items:center; gap:14px; padding:13px 16px; border-bottom:1px solid #F0E7D6;">
+            <span style="font:600 18px 'Newsreader',serif; color:#B26A36; min-width:52px;">{{ a.time }}</span>
+            <div style="flex:1; min-width:0;">
+              <div style="font:600 14.5px 'Hanken Grotesk',sans-serif; color:#2B2118;">{{ a.name }}</div>
+              <div style="font:400 12px 'Hanken Grotesk',sans-serif; color:#9A8A75; margin-top:1px;">{{ a.phone }}</div>
+            </div>
+            <button style="width:36px; height:36px; border:1px solid #E2D4BD; border-radius:10px; background:transparent; color:#7a6b56; display:flex; align-items:center; justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 10.8a13 13 0 006.6 6.6l2.2-2.2a1 1 0 011-.24 11 11 0 003.4.55 1 1 0 011 1V20a1 1 0 01-1 1A16 16 0 013 5a1 1 0 011-1h3.5a1 1 0 011 1 11 11 0 00.55 3.4 1 1 0 01-.24 1z"/></svg></button>
+            <button style="width:36px; height:36px; border:none; border-radius:10px; background:#B26A36; color:#fff; display:flex; align-items:center; justify-content:center;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.4"/><path d="M3.5 19.5a6 6 0 0111 0"/><path d="M18.5 7v5M16 9.5h5"/></svg></button>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="position:absolute; right:22px; bottom:30px; width:60px; height:60px; border-radius:50%; background:#B26A36; box-shadow:0 14px 26px rgba(178,106,54,.45); display:flex; align-items:center; justify-content:center; color:#fff; z-index:50;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
+    <div style="position:absolute; bottom:9px; left:50%; transform:translateX(-50%); width:140px; height:5px; border-radius:3px; background:rgba(60,45,25,.55); z-index:60;"></div>
+  </div>
+</div>
+
+<!-- B3 : Yeni Randevu -->
+<div style="position:absolute; left:524px; top:2132px;">
+  <div data-drags-parent="1" style="font:600 12px 'Hanken Grotesk',sans-serif; letter-spacing:.1em; text-transform:uppercase; color:#b3a48f; margin-bottom:12px; padding-left:6px;">Yeni Randevu</div>
+  <div data-screen-label="B · Yeni Randevu" style="position:relative; width:390px; height:844px; border-radius:46px; overflow:hidden; background:#F6EFE4; box-shadow:0 0 0 12px #1a1611, 0 0 0 13px #3b342a, 0 26px 52px rgba(60,45,25,.22); font-family:'Hanken Grotesk',sans-serif;">
+    <div style="position:absolute; top:11px; left:50%; transform:translateX(-50%); width:118px; height:33px; background:#000; border-radius:18px; z-index:60;"></div>
+    <div style="position:absolute; top:0; left:0; right:0; z-index:40; height:50px; display:flex; align-items:flex-end; justify-content:space-between; padding:0 30px 8px; color:#2B2118; background:#F6EFE4;">
+      <span style="font:700 15px 'Hanken Grotesk',sans-serif;">9:41</span>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <svg width="18" height="11" viewBox="0 0 18 11" fill="currentColor"><rect x="0" y="6" width="3" height="5" rx="1"/><rect x="4.5" y="4" width="3" height="7" rx="1"/><rect x="9" y="2" width="3" height="9" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+        <svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1.2 4.4a10 10 0 0113.6 0"/><path d="M3.8 7a6 6 0 018.4 0"/></svg>
+        <div style="display:flex; align-items:center; gap:1.5px;"><div style="width:22px; height:11px; border:1.4px solid currentColor; border-radius:3px; padding:1.5px;"><div style="width:82%; height:100%; background:currentColor; border-radius:1px;"></div></div><div style="width:1.5px; height:4px; background:currentColor; border-radius:1px;"></div></div>
+      </div>
+    </div>
+
+    <div style="position:absolute; top:50px; left:0; right:0; bottom:0; overflow:hidden;">
+      <div style="display:flex; align-items:center; gap:14px; padding:8px 24px 4px;">
+        <button style="width:38px; height:38px; border:1px solid #E2D4BD; border-radius:11px; background:#FFFDF8; color:#7a6b56; display:flex; align-items:center; justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+        <span style="font:600 22px 'Newsreader',serif; color:#2B2118;">Yeni Randevu</span>
+      </div>
+
+      <div style="padding:16px 24px 0; display:flex; flex-direction:column; gap:18px;">
+        <div>
+          <label style="font:600 11px 'Hanken Grotesk',sans-serif; letter-spacing:.1em; text-transform:uppercase; color:#B26A36;">İsim</label>
+          <div style="display:flex; gap:10px; margin-top:8px;">
+            <div style="flex:1; background:#FFFDF8; border:1.5px solid #E2D4BD; border-radius:12px; padding:14px 16px; font:500 15px 'Hanken Grotesk',sans-serif; color:#2B2118;">Emre Kaya</div>
+            <button style="width:54px; border:none; border-radius:12px; background:#B26A36; color:#fff; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 16px rgba(178,106,54,.3);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.4"/><path d="M3.5 19.5a6 6 0 0111 0"/><path d="M18.5 7v5M16 9.5h5"/></svg></button>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px; margin-top:8px; font:500 11.5px 'Hanken Grotesk',sans-serif; color:#B26A36;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"/><path d="M5 20a7 7 0 0114 0"/></svg>
+            Rehberden seç — isim ve numara otomatik gelsin
+          </div>
+        </div>
+
+        <div>
+          <label style="font:600 11px 'Hanken Grotesk',sans-serif; letter-spacing:.1em; text-transform:uppercase; color:#B26A36;">Telefon</label>
+          <div style="display:flex; align-items:center; gap:11px; margin-top:8px; background:#FFFDF8; border:1.5px solid #E2D4BD; border-radius:12px; padding:14px 16px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9A8A75" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 10.8a13 13 0 006.6 6.6l2.2-2.2a1 1 0 011-.24 11 11 0 003.4.55 1 1 0 011 1V20a1 1 0 01-1 1A16 16 0 013 5a1 1 0 011-1h3.5a1 1 0 011 1 11 11 0 00.55 3.4 1 1 0 01-.24 1z"/></svg>
+            <span style="font:500 15px 'Hanken Grotesk',sans-serif; color:#2B2118;">0532 412 88 90</span>
+          </div>
+        </div>
+
+        <div>
+          <label style="font:600 11px 'Hanken Grotesk',sans-serif; letter-spacing:.1em; text-transform:uppercase; color:#B26A36;">Tarih</label>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-top:8px; background:#FFFDF8; border:1.5px solid #E2D4BD; border-radius:12px; padding:14px 16px;">
+            <span style="font:500 15px 'Hanken Grotesk',sans-serif; color:#2B2118;">Cuma, 26 Haziran 2026</span>
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#B26A36" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="16" rx="3"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3"/></svg>
+          </div>
+        </div>
+
+        <div>
+          <label style="font:600 11px 'Hanken Grotesk',sans-serif; letter-spacing:.1em; text-transform:uppercase; color:#B26A36;">Saat</label>
+          <div style="display:flex; flex-wrap:wrap; gap:9px; margin-top:10px;">
+            <div style="font:500 14px 'Hanken Grotesk',sans-serif; color:#5a4f3e; background:#FFFDF8; border:1.5px solid #E2D4BD; border-radius:10px; padding:10px 16px;">09:00</div>
+            <div style="font:700 14px 'Hanken Grotesk',sans-serif; color:#fff; background:#B26A36; border:1.5px solid #B26A36; border-radius:10px; padding:10px 16px; box-shadow:0 8px 16px rgba(178,106,54,.28);">09:30</div>
+            <div style="font:500 14px 'Hanken Grotesk',sans-serif; color:#5a4f3e; background:#FFFDF8; border:1.5px solid #E2D4BD; border-radius:10px; padding:10px 16px;">10:00</div>
+            <div style="font:500 14px 'Hanken Grotesk',sans-serif; color:#5a4f3e; background:#FFFDF8; border:1.5px solid #E2D4BD; border-radius:10px; padding:10px 16px;">10:30</div>
+            <div style="font:500 14px 'Hanken Grotesk',sans-serif; color:#5a4f3e; background:#FFFDF8; border:1.5px solid #E2D4BD; border-radius:10px; padding:10px 16px;">11:00</div>
+            <div style="font:500 14px 'Hanken Grotesk',sans-serif; color:#5a4f3e; background:#FFFDF8; border:1.5px solid #E2D4BD; border-radius:10px; padding:10px 16px;">11:30</div>
+          </div>
+        </div>
+      </div>
+
+      <button style="position:absolute; left:24px; right:24px; bottom:30px; background:#B26A36; color:#fff; border:none; border-radius:14px; padding:17px; font:600 17px 'Newsreader',serif; box-shadow:0 14px 26px rgba(178,106,54,.4); display:flex; align-items:center; justify-content:center; gap:9px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        Randevuyu Kaydet
+      </button>
+    </div>
+    <div style="position:absolute; bottom:9px; left:50%; transform:translateX(-50%); width:140px; height:5px; border-radius:3px; background:rgba(60,45,25,.55); z-index:60;"></div>
+  </div>
+</div>
+
+<!-- B4 : Randevu Detayı -->
+<div style="position:absolute; left:524px; top:3124px;">
+  <div data-drags-parent="1" style="font:600 12px 'Hanken Grotesk',sans-serif; letter-spacing:.1em; text-transform:uppercase; color:#b3a48f; margin-bottom:12px; padding-left:6px;">Randevu Detayı</div>
+  <div data-screen-label="B · Detay" style="position:relative; width:390px; height:844px; border-radius:46px; overflow:hidden; background:#F6EFE4; box-shadow:0 0 0 12px #1a1611, 0 0 0 13px #3b342a, 0 26px 52px rgba(60,45,25,.22); font-family:'Hanken Grotesk',sans-serif;">
+    <div style="position:absolute; top:11px; left:50%; transform:translateX(-50%); width:118px; height:33px; background:#000; border-radius:18px; z-index:60;"></div>
+    <div style="position:absolute; top:0; left:0; right:0; z-index:40; height:50px; display:flex; align-items:flex-end; justify-content:space-between; padding:0 30px 8px; color:#2B2118; background:#F6EFE4;">
+      <span style="font:700 15px 'Hanken Grotesk',sans-serif;">9:41</span>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <svg width="18" height="11" viewBox="0 0 18 11" fill="currentColor"><rect x="0" y="6" width="3" height="5" rx="1"/><rect x="4.5" y="4" width="3" height="7" rx="1"/><rect x="9" y="2" width="3" height="9" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+        <svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1.2 4.4a10 10 0 0113.6 0"/><path d="M3.8 7a6 6 0 018.4 0"/></svg>
+        <div style="display:flex; align-items:center; gap:1.5px;"><div style="width:22px; height:11px; border:1.4px solid currentColor; border-radius:3px; padding:1.5px;"><div style="width:82%; height:100%; background:currentColor; border-radius:1px;"></div></div><div style="width:1.5px; height:4px; background:currentColor; border-radius:1px;"></div></div>
+      </div>
+    </div>
+
+    <div style="position:absolute; top:50px; left:0; right:0; bottom:0; overflow:hidden;">
+      <div style="display:flex; align-items:center; justify-content:space-between; padding:8px 24px 4px;">
+        <button style="width:38px; height:38px; border:1px solid #E2D4BD; border-radius:11px; background:#FFFDF8; color:#7a6b56; display:flex; align-items:center; justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+        <button style="width:38px; height:38px; border:1px solid #E2D4BD; border-radius:11px; background:#FFFDF8; color:#7a6b56; display:flex; align-items:center; justify-content:center;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L18.5 9.5a2 2 0 00-3-3L5 17v3z"/><path d="M13.5 6.5l3 3"/></svg></button>
+      </div>
+
+      <div style="padding:20px 24px 0; display:flex; flex-direction:column; align-items:center;">
+        <div style="width:88px; height:88px; border-radius:50%; background:linear-gradient(135deg,#B26A36,#caa06f); display:flex; align-items:center; justify-content:center; font:600 32px 'Newsreader',serif; color:#fff; box-shadow:0 14px 28px rgba(178,106,54,.35);">EK</div>
+        <div style="font:600 28px 'Newsreader',serif; color:#2B2118; margin-top:16px;">Emre Kaya</div>
+        <div style="display:flex; gap:9px; margin-top:14px;">
+          <span style="display:flex; align-items:center; gap:6px; font:600 13px 'Hanken Grotesk',sans-serif; color:#B26A36; border:1px solid #E2C39C; padding:8px 14px; border-radius:30px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>09:30</span>
+          <span style="display:flex; align-items:center; gap:6px; font:600 13px 'Hanken Grotesk',sans-serif; color:#7a6b56; border:1px solid #E2D4BD; padding:8px 14px; border-radius:30px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="16" rx="3"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3"/></svg>26 Haziran</span>
+        </div>
+      </div>
+
+      <div style="margin:24px 24px 0; background:#FFFDF8; border-radius:16px; padding:6px 18px; border:1px solid #EADDC8;">
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:14px 0;">
+          <div style="display:flex; align-items:center; gap:13px;">
+            <div style="width:42px; height:42px; border-radius:12px; background:#F4EADB; color:#B26A36; display:flex; align-items:center; justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 10.8a13 13 0 006.6 6.6l2.2-2.2a1 1 0 011-.24 11 11 0 003.4.55 1 1 0 011 1V20a1 1 0 01-1 1A16 16 0 013 5a1 1 0 011-1h3.5a1 1 0 011 1 11 11 0 00.55 3.4 1 1 0 01-.24 1z"/></svg></div>
+            <div>
+              <div style="font:400 11px 'Hanken Grotesk',sans-serif; color:#9A8A75;">Telefon</div>
+              <div style="font:600 15px 'Hanken Grotesk',sans-serif; color:#2B2118; margin-top:1px;">0532 412 88 90</div>
+            </div>
+          </div>
+          <button style="font:600 13px 'Hanken Grotesk',sans-serif; color:#fff; background:#34C759; border:none; border-radius:10px; padding:10px 18px;">Ara</button>
+        </div>
+      </div>
+
+      <button style="margin:18px 24px 0; width:calc(100% - 48px); background:#B26A36; color:#fff; border:none; border-radius:14px; padding:17px; font:600 17px 'Newsreader',serif; box-shadow:0 14px 26px rgba(178,106,54,.4); display:flex; align-items:center; justify-content:center; gap:10px;">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.4"/><path d="M3.5 19.5a6 6 0 0111 0"/><path d="M18.5 7v5M16 9.5h5"/></svg>
+        Rehbere Kaydet
+      </button>
+
+      <div style="display:flex; gap:11px; padding:12px 24px 0;">
+        <button style="flex:1; background:#FFFDF8; color:#7a6b56; border:1px solid #E2D4BD; border-radius:12px; padding:14px; font:600 14px 'Hanken Grotesk',sans-serif; display:flex; align-items:center; justify-content:center; gap:8px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L18.5 9.5a2 2 0 00-3-3L5 17v3z"/><path d="M13.5 6.5l3 3"/></svg>Düzenle</button>
+        <button style="flex:1; background:#FFFDF8; color:#9C3B33; border:1px solid #E7C9bd; border-radius:12px; padding:14px; font:600 14px 'Hanken Grotesk',sans-serif; display:flex; align-items:center; justify-content:center; gap:8px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V5a1.5 1.5 0 011.5-1.5h3A1.5 1.5 0 0115 5v2M6 7l1 13a2 2 0 002 2h6a2 2 0 002-2l1-13"/></svg>Sil</button>
+      </div>
+    </div>
+    <div style="position:absolute; bottom:9px; left:50%; transform:translateX(-50%); width:140px; height:5px; border-radius:3px; background:rgba(60,45,25,.55); z-index:60;"></div>
+  </div>
+</div>
+<!-- ============ STİL C — MİNİMAL MONO ============ -->
+<div data-drags-parent="1" style="position:absolute; left:1024px; top:92px; width:414px;">
+  <div style="font:700 14px 'Space Grotesk',sans-serif; letter-spacing:.14em; text-transform:uppercase; color:#111418;">Stil C — Minimal Mono</div>
+  <div style="font:500 13px 'Hanken Grotesk',sans-serif; color:#9aa1ab; margin-top:3px;">İnce çizgiler · bol boşluk</div>
+</div>
+
+<!-- C1 : Home + Widget -->
+<div style="position:absolute; left:1024px; top:148px;">
+  <div data-drags-parent="1" style="font:600 12px 'Hanken Grotesk',sans-serif; letter-spacing:.1em; text-transform:uppercase; color:#aeb2ba; margin-bottom:12px; padding-left:6px;">Ana Ekran · Widget</div>
+  <div data-screen-label="C · Home" style="position:relative; width:390px; height:844px; border-radius:46px; overflow:hidden; background:linear-gradient(180deg,#ededf0 0%,#f6f6f8 55%,#ffffff 100%); box-shadow:0 0 0 12px #0f0f10, 0 0 0 13px #2c2c30, 0 26px 52px rgba(20,20,30,.22); font-family:'Hanken Grotesk',sans-serif;">
+    <div style="position:absolute; top:11px; left:50%; transform:translateX(-50%); width:118px; height:33px; background:#000; border-radius:18px; z-index:60;"></div>
+    <div style="position:absolute; top:0; left:0; right:0; z-index:40; height:50px; display:flex; align-items:flex-end; justify-content:space-between; padding:0 30px 8px; color:#111418;">
+      <span style="font:700 15px 'Hanken Grotesk',sans-serif;">9:41</span>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <svg width="18" height="11" viewBox="0 0 18 11" fill="currentColor"><rect x="0" y="6" width="3" height="5" rx="1"/><rect x="4.5" y="4" width="3" height="7" rx="1"/><rect x="9" y="2" width="3" height="9" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+        <svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1.2 4.4a10 10 0 0113.6 0"/><path d="M3.8 7a6 6 0 018.4 0"/></svg>
+        <div style="display:flex; align-items:center; gap:1.5px;"><div style="width:22px; height:11px; border:1.4px solid currentColor; border-radius:3px; padding:1.5px;"><div style="width:82%; height:100%; background:currentColor; border-radius:1px;"></div></div><div style="width:1.5px; height:4px; background:currentColor; border-radius:1px;"></div></div>
+      </div>
+    </div>
+
+    <div style="position:absolute; top:0; left:0; right:0; bottom:0; padding:62px 22px 0;">
+      <div style="background:#FFFFFF; border-radius:22px; padding:22px; border:1px solid #EAEAEC;">
+        <div style="display:flex; align-items:center; justify-content:space-between;">
+          <div style="display:flex; align-items:center; gap:11px;">
+            <img src="logo.png" style="width:30px; height:30px; border-radius:8px;">
+            <span style="font:600 13px 'Space Grotesk',sans-serif; letter-spacing:.02em; color:#111418;">BERBER DEFTERİ</span>
+          </div>
+          <span style="font:600 10px 'Space Grotesk',sans-serif; letter-spacing:.12em; text-transform:uppercase; color:#9aa1ab;">Bugün</span>
+        </div>
+        <div style="display:flex; align-items:flex-end; gap:10px; margin-top:22px;">
+          <span style="font:500 46px 'Space Grotesk',sans-serif; color:#111418; line-height:.85; letter-spacing:-.02em;">3</span>
+          <span style="font:500 13px 'Hanken Grotesk',sans-serif; color:#9aa1ab; padding-bottom:6px;">randevu kaldı</span>
+        </div>
+        <div style="height:1px; background:#EEEEF0; margin:20px 0;"></div>
+        <div style="display:flex; flex-direction:column; gap:13px;">
+          <sc-for list="{{ widgetAppts }}" as="w" hint-placeholder-count="2">
+            <div style="display:flex; align-items:center; gap:14px;">
+              <span style="font:500 14px 'Space Grotesk',sans-serif; color:#111418; min-width:48px; letter-spacing:.02em;">{{ w.time }}</span>
+              <span style="font:500 13.5px 'Hanken Grotesk',sans-serif; color:#5b6068;">{{ w.name }}</span>
+              <div style="flex:1;"></div>
+              <div style="width:6px; height:6px; border-radius:50%; background:#2E55E6;"></div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="text-align:center; margin-top:14px; font:500 11.5px 'Hanken Grotesk',sans-serif; color:#aeb2ba;">Widget'a dokun → randevu defteri açılır</div>
+
+      <div style="display:flex; justify-content:space-between; margin-top:30px; padding:0 4px;">
+        <div style="display:flex; flex-direction:column; align-items:center; gap:7px;">
+          <div style="width:60px; height:60px; border-radius:16px; background:#34C759; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 14px rgba(0,0,0,.1); color:#fff;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 10.8a13 13 0 006.6 6.6l2.2-2.2a1 1 0 011-.24 11 11 0 003.4.55 1 1 0 011 1V20a1 1 0 01-1 1A16 16 0 013 5a1 1 0 011-1h3.5a1 1 0 011 1 11 11 0 00.55 3.4 1 1 0 01-.24 1z"/></svg></div>
+          <span style="font:500 11px 'Hanken Grotesk',sans-serif; color:#5b6068;">Telefon</span>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:7px;">
+          <div style="width:60px; height:60px; border-radius:16px; background:#0A84FF; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 14px rgba(0,0,0,.1); color:#fff;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 01-12.2 7.6L3 21l1.9-5.8A8.5 8.5 0 1121 11.5z"/></svg></div>
+          <span style="font:500 11px 'Hanken Grotesk',sans-serif; color:#5b6068;">Mesajlar</span>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:7px;">
+          <div style="width:60px; height:60px; border-radius:16px; background:#8E8E93; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 14px rgba(0,0,0,.1); color:#fff;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20a7 7 0 0114 0"/></svg></div>
+          <span style="font:500 11px 'Hanken Grotesk',sans-serif; color:#5b6068;">Rehber</span>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:7px;">
+          <div style="position:relative; width:60px; height:60px; border-radius:16px; box-shadow:0 0 0 1.5px #111418; overflow:hidden;"><img src="logo.png" style="width:100%; height:100%; object-fit:cover;"></div>
+          <span style="font:700 11px 'Hanken Grotesk',sans-serif; color:#111418;">Defter</span>
+        </div>
+      </div>
+
+      <div style="position:absolute; left:18px; right:18px; bottom:30px; height:96px; background:rgba(255,255,255,.6); backdrop-filter:blur(20px); border-radius:34px; display:flex; align-items:center; justify-content:space-around; padding:0 18px; border:1px solid #EAEAEC;">
+        <div style="width:58px; height:58px; border-radius:15px; background:#34C759; display:flex; align-items:center; justify-content:center; color:#fff;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 10.8a13 13 0 006.6 6.6l2.2-2.2a1 1 0 011-.24 11 11 0 003.4.55 1 1 0 011 1V20a1 1 0 01-1 1A16 16 0 013 5a1 1 0 011-1h3.5a1 1 0 011 1 11 11 0 00.55 3.4 1 1 0 01-.24 1z"/></svg></div>
+        <div style="width:58px; height:58px; border-radius:15px; background:#FF9500; display:flex; align-items:center; justify-content:center; color:#fff;"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+        <div style="width:58px; height:58px; border-radius:15px; background:#fff; border:1px solid #EAEAEC; display:flex; align-items:center; justify-content:center; color:#111418;"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="16" rx="3"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3"/></svg></div>
+        <div style="width:58px; height:58px; border-radius:15px; background:#8E8E93; display:flex; align-items:center; justify-content:center; color:#fff;"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M21.5 12h-3M5.5 12h-3M18.4 5.6l-2 2M7.6 16.4l-2 2M18.4 18.4l-2-2M7.6 7.6l-2-2"/></svg></div>
+      </div>
+    </div>
+    <div style="position:absolute; bottom:9px; left:50%; transform:translateX(-50%); width:140px; height:5px; border-radius:3px; background:rgba(20,20,30,.5); z-index:60;"></div>
+  </div>
+</div>
+
+<!-- C2 : Randevu Defteri -->
+<div style="position:absolute; left:1024px; top:1140px;">
+  <div data-drags-parent="1" style="font:600 12px 'Hanken Grotesk',sans-serif; letter-spacing:.1em; text-transform:uppercase; color:#aeb2ba; margin-bottom:12px; padding-left:6px;">Randevu Defteri</div>
+  <div data-screen-label="C · Ana Ekran" style="position:relative; width:390px; height:844px; border-radius:46px; overflow:hidden; background:#FFFFFF; box-shadow:0 0 0 12px #0f0f10, 0 0 0 13px #2c2c30, 0 26px 52px rgba(20,20,30,.22); font-family:'Hanken Grotesk',sans-serif;">
+    <div style="position:absolute; top:11px; left:50%; transform:translateX(-50%); width:118px; height:33px; background:#000; border-radius:18px; z-index:60;"></div>
+    <div style="position:absolute; top:0; left:0; right:0; z-index:40; height:50px; display:flex; align-items:flex-end; justify-content:space-between; padding:0 30px 8px; color:#111418; background:#fff;">
+      <span style="font:700 15px 'Hanken Grotesk',sans-serif;">9:41</span>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <svg width="18" height="11" viewBox="0 0 18 11" fill="currentColor"><rect x="0" y="6" width="3" height="5" rx="1"/><rect x="4.5" y="4" width="3" height="7" rx="1"/><rect x="9" y="2" width="3" height="9" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+        <svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1.2 4.4a10 10 0 0113.6 0"/><path d="M3.8 7a6 6 0 018.4 0"/></svg>
+        <div style="display:flex; align-items:center; gap:1.5px;"><div style="width:22px; height:11px; border:1.4px solid currentColor; border-radius:3px; padding:1.5px;"><div style="width:82%; height:100%; background:currentColor; border-radius:1px;"></div></div><div style="width:1.5px; height:4px; background:currentColor; border-radius:1px;"></div></div>
+      </div>
+    </div>
+
+    <div style="position:absolute; top:50px; left:0; right:0; bottom:0; overflow:hidden;">
+      <div style="padding:10px 26px 0; display:flex; align-items:flex-end; justify-content:space-between;">
+        <div>
+          <div style="font:600 10px 'Space Grotesk',sans-serif; letter-spacing:.16em; text-transform:uppercase; color:#aeb2ba;">Randevu Defteri</div>
+          <div style="font:500 26px 'Space Grotesk',sans-serif; color:#111418; margin-top:5px; letter-spacing:-.01em;">Haziran 2026</div>
+        </div>
+        <div style="display:flex; gap:14px; padding-bottom:4px;">
+          <span style="color:#111418;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></span>
+          <span style="color:#111418;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+        </div>
+      </div>
+
+      <div style="margin:22px 22px 0;">
+        <div style="display:grid; grid-template-columns:repeat(7,1fr); margin-bottom:8px;">
+          <div style="text-align:center; font:600 10px 'Space Grotesk',sans-serif; letter-spacing:.06em; color:#C4C8CE;">PT</div>
+          <div style="text-align:center; font:600 10px 'Space Grotesk',sans-serif; letter-spacing:.06em; color:#C4C8CE;">SA</div>
+          <div style="text-align:center; font:600 10px 'Space Grotesk',sans-serif; letter-spacing:.06em; color:#C4C8CE;">ÇA</div>
+          <div style="text-align:center; font:600 10px 'Space Grotesk',sans-serif; letter-spacing:.06em; color:#C4C8CE;">PE</div>
+          <div style="text-align:center; font:600 10px 'Space Grotesk',sans-serif; letter-spacing:.06em; color:#C4C8CE;">CU</div>
+          <div style="text-align:center; font:600 10px 'Space Grotesk',sans-serif; letter-spacing:.06em; color:#C4C8CE;">CT</div>
+          <div style="text-align:center; font:600 10px 'Space Grotesk',sans-serif; letter-spacing:.06em; color:#C4C8CE;">PZ</div>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(7,1fr);">
+          <sc-for list="{{ monthDays }}" as="cell" hint-placeholder-count="30">
+            <div style="position:relative; height:40px; display:flex; align-items:center; justify-content:center;">
+              <sc-if value="{{ cell.today }}" hint-placeholder-val="{{ false }}">
+                <div style="position:absolute; width:32px; height:32px; background:#111418; border-radius:10px;"></div>
+                <span style="position:relative; z-index:2; font:500 14px 'Space Grotesk',sans-serif; color:#fff;">{{ cell.n }}</span>
+              </sc-if>
+              <sc-if value="{{ cell.notToday }}" hint-placeholder-val="{{ true }}">
+                <span style="position:relative; z-index:2; font:500 14px 'Space Grotesk',sans-serif; color:#3a3f47;">{{ cell.n }}</span>
+              </sc-if>
+              <sc-if value="{{ cell.dot }}" hint-placeholder-val="{{ false }}">
+                <div style="position:absolute; bottom:5px; width:5px; height:5px; border-radius:50%; background:#2E55E6;"></div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="display:flex; align-items:baseline; justify-content:space-between; padding:24px 26px 4px;">
+        <span style="font:500 17px 'Space Grotesk',sans-serif; color:#111418;">Cuma, 26 Haziran</span>
+        <span style="font:500 11px 'Hanken Grotesk',sans-serif; letter-spacing:.04em; text-transform:uppercase; color:#aeb2ba;">5 randevu</span>
+      </div>
+
+      <div style="margin:6px 26px 0; border-top:1px solid #EEEEF0;">
+        <sc-for list="{{ appts }}" as="a" hint-placeholder-count="5">
+          <div style="display:flex; align-items:center; gap:16px; padding:15px 0; border-bottom:1px solid #EEEEF0;">
+            <span style="font:500 15px 'Space Grotesk',sans-serif; color:#111418; min-width:48px; letter-spacing:.01em;">{{ a.time }}</span>
+            <div style="flex:1; min-width:0;">
+              <div style="font:600 14.5px 'Hanken Grotesk',sans-serif; color:#111418;">{{ a.name }}</div>
+              <div style="font:400 12px 'Hanken Grotesk',sans-serif; color:#aeb2ba; margin-top:1px;">{{ a.phone }}</div>
+            </div>
+            <button style="width:34px; height:34px; border:none; border-radius:9px; background:transparent; color:#9aa1ab; display:flex; align-items:center; justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 10.8a13 13 0 006.6 6.6l2.2-2.2a1 1 0 011-.24 11 11 0 003.4.55 1 1 0 011 1V20a1 1 0 01-1 1A16 16 0 013 5a1 1 0 011-1h3.5a1 1 0 011 1 11 11 0 00.55 3.4 1 1 0 01-.24 1z"/></svg></button>
+            <button style="width:34px; height:34px; border:none; border-radius:9px; background:#111418; color:#fff; display:flex; align-items:center; justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.4"/><path d="M3.5 19.5a6 6 0 0111 0"/><path d="M18.5 7v5M16 9.5h5"/></svg></button>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="position:absolute; right:24px; bottom:30px; width:58px; height:58px; border-radius:16px; background:#111418; display:flex; align-items:center; justify-content:center; color:#fff; z-index:50;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
+    <div style="position:absolute; bottom:9px; left:50%; transform:translateX(-50%); width:140px; height:5px; border-radius:3px; background:rgba(20,20,30,.5); z-index:60;"></div>
+  </div>
+</div>
+<!-- C3 : Yeni Randevu -->
+<div style="position:absolute; left:1024px; top:2132px;">
+  <div data-drags-parent="1" style="font:600 12px 'Hanken Grotesk',sans-serif; letter-spacing:.1em; text-transform:uppercase; color:#aeb2ba; margin-bottom:12px; padding-left:6px;">Yeni Randevu</div>
+  <div data-screen-label="C · Yeni Randevu" style="position:relative; width:390px; height:844px; border-radius:46px; overflow:hidden; background:#FFFFFF; box-shadow:0 0 0 12px #0f0f10, 0 0 0 13px #2c2c30, 0 26px 52px rgba(20,20,30,.22); font-family:'Hanken Grotesk',sans-serif;">
+    <div style="position:absolute; top:11px; left:50%; transform:translateX(-50%); width:118px; height:33px; background:#000; border-radius:18px; z-index:60;"></div>
+    <div style="position:absolute; top:0; left:0; right:0; z-index:40; height:50px; display:flex; align-items:flex-end; justify-content:space-between; padding:0 30px 8px; color:#111418; background:#fff;">
+      <span style="font:700 15px 'Hanken Grotesk',sans-serif;">9:41</span>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <svg width="18" height="11" viewBox="0 0 18 11" fill="currentColor"><rect x="0" y="6" width="3" height="5" rx="1"/><rect x="4.5" y="4" width="3" height="7" rx="1"/><rect x="9" y="2" width="3" height="9" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+        <svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1.2 4.4a10 10 0 0113.6 0"/><path d="M3.8 7a6 6 0 018.4 0"/></svg>
+        <div style="display:flex; align-items:center; gap:1.5px;"><div style="width:22px; height:11px; border:1.4px solid currentColor; border-radius:3px; padding:1.5px;"><div style="width:82%; height:100%; background:currentColor; border-radius:1px;"></div></div><div style="width:1.5px; height:4px; background:currentColor; border-radius:1px;"></div></div>
+      </div>
+    </div>
+
+    <div style="position:absolute; top:50px; left:0; right:0; bottom:0; overflow:hidden;">
+      <div style="display:flex; align-items:center; gap:16px; padding:10px 26px 4px;">
+        <span style="color:#111418;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></span>
+        <span style="font:500 21px 'Space Grotesk',sans-serif; color:#111418; letter-spacing:-.01em;">Yeni Randevu</span>
+      </div>
+
+      <div style="padding:22px 26px 0; display:flex; flex-direction:column; gap:24px;">
+        <div>
+          <label style="font:600 10px 'Space Grotesk',sans-serif; letter-spacing:.14em; text-transform:uppercase; color:#aeb2ba;">İsim</label>
+          <div style="display:flex; align-items:center; gap:12px; margin-top:12px; border-bottom:1.5px solid #111418; padding-bottom:11px;">
+            <span style="flex:1; font:500 17px 'Hanken Grotesk',sans-serif; color:#111418;">Emre Kaya</span>
+            <button style="display:flex; align-items:center; gap:7px; border:none; background:transparent; color:#111418; font:600 11px 'Space Grotesk',sans-serif; letter-spacing:.04em; text-transform:uppercase;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.4"/><path d="M3.5 19.5a6 6 0 0111 0"/><path d="M18.5 7v5M16 9.5h5"/></svg>Rehber</button>
+          </div>
+          <div style="margin-top:10px; font:500 11.5px 'Hanken Grotesk',sans-serif; color:#9aa1ab;">Rehberden seç — isim ve numara otomatik gelsin</div>
+        </div>
+
+        <div>
+          <label style="font:600 10px 'Space Grotesk',sans-serif; letter-spacing:.14em; text-transform:uppercase; color:#aeb2ba;">Telefon</label>
+          <div style="margin-top:12px; border-bottom:1px solid #E6E6E8; padding-bottom:11px; font:500 17px 'Hanken Grotesk',sans-serif; color:#111418;">0532 412 88 90</div>
+        </div>
+
+        <div>
+          <label style="font:600 10px 'Space Grotesk',sans-serif; letter-spacing:.14em; text-transform:uppercase; color:#aeb2ba;">Tarih</label>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-top:12px; border-bottom:1px solid #E6E6E8; padding-bottom:11px;">
+            <span style="font:500 17px 'Hanken Grotesk',sans-serif; color:#111418;">Cuma, 26 Haziran 2026</span>
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#111418" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="16" rx="3"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3"/></svg>
+          </div>
+        </div>
+
+        <div>
+          <label style="font:600 10px 'Space Grotesk',sans-serif; letter-spacing:.14em; text-transform:uppercase; color:#aeb2ba;">Saat</label>
+          <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;">
+            <div style="font:500 14px 'Space Grotesk',sans-serif; color:#3a3f47; border:1px solid #E6E6E8; border-radius:9px; padding:10px 16px;">09:00</div>
+            <div style="font:500 14px 'Space Grotesk',sans-serif; color:#fff; background:#111418; border:1px solid #111418; border-radius:9px; padding:10px 16px;">09:30</div>
+            <div style="font:500 14px 'Space Grotesk',sans-serif; color:#3a3f47; border:1px solid #E6E6E8; border-radius:9px; padding:10px 16px;">10:00</div>
+            <div style="font:500 14px 'Space Grotesk',sans-serif; color:#3a3f47; border:1px solid #E6E6E8; border-radius:9px; padding:10px 16px;">10:30</div>
+            <div style="font:500 14px 'Space Grotesk',sans-serif; color:#3a3f47; border:1px solid #E6E6E8; border-radius:9px; padding:10px 16px;">11:00</div>
+            <div style="font:500 14px 'Space Grotesk',sans-serif; color:#3a3f47; border:1px solid #E6E6E8; border-radius:9px; padding:10px 16px;">11:30</div>
+          </div>
+        </div>
+      </div>
+
+      <button style="position:absolute; left:26px; right:26px; bottom:30px; background:#111418; color:#fff; border:none; border-radius:14px; padding:18px; font:500 15px 'Space Grotesk',sans-serif; letter-spacing:.02em; display:flex; align-items:center; justify-content:center; gap:10px;">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        Randevuyu Kaydet
+      </button>
+    </div>
+    <div style="position:absolute; bottom:9px; left:50%; transform:translateX(-50%); width:140px; height:5px; border-radius:3px; background:rgba(20,20,30,.5); z-index:60;"></div>
+  </div>
+</div>
+
+<!-- C4 : Randevu Detayı -->
+<div style="position:absolute; left:1024px; top:3124px;">
+  <div data-drags-parent="1" style="font:600 12px 'Hanken Grotesk',sans-serif; letter-spacing:.1em; text-transform:uppercase; color:#aeb2ba; margin-bottom:12px; padding-left:6px;">Randevu Detayı</div>
+  <div data-screen-label="C · Detay" style="position:relative; width:390px; height:844px; border-radius:46px; overflow:hidden; background:#FFFFFF; box-shadow:0 0 0 12px #0f0f10, 0 0 0 13px #2c2c30, 0 26px 52px rgba(20,20,30,.22); font-family:'Hanken Grotesk',sans-serif;">
+    <div style="position:absolute; top:11px; left:50%; transform:translateX(-50%); width:118px; height:33px; background:#000; border-radius:18px; z-index:60;"></div>
+    <div style="position:absolute; top:0; left:0; right:0; z-index:40; height:50px; display:flex; align-items:flex-end; justify-content:space-between; padding:0 30px 8px; color:#111418; background:#fff;">
+      <span style="font:700 15px 'Hanken Grotesk',sans-serif;">9:41</span>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <svg width="18" height="11" viewBox="0 0 18 11" fill="currentColor"><rect x="0" y="6" width="3" height="5" rx="1"/><rect x="4.5" y="4" width="3" height="7" rx="1"/><rect x="9" y="2" width="3" height="9" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+        <svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1.2 4.4a10 10 0 0113.6 0"/><path d="M3.8 7a6 6 0 018.4 0"/></svg>
+        <div style="display:flex; align-items:center; gap:1.5px;"><div style="width:22px; height:11px; border:1.4px solid currentColor; border-radius:3px; padding:1.5px;"><div style="width:82%; height:100%; background:currentColor; border-radius:1px;"></div></div><div style="width:1.5px; height:4px; background:currentColor; border-radius:1px;"></div></div>
+      </div>
+    </div>
+
+    <div style="position:absolute; top:50px; left:0; right:0; bottom:0; overflow:hidden;">
+      <div style="display:flex; align-items:center; justify-content:space-between; padding:10px 26px 4px;">
+        <span style="color:#111418;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></span>
+        <span style="color:#111418;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L18.5 9.5a2 2 0 00-3-3L5 17v3z"/><path d="M13.5 6.5l3 3"/></svg></span>
+      </div>
+
+      <div style="padding:26px 26px 0;">
+        <div style="font:600 10px 'Space Grotesk',sans-serif; letter-spacing:.16em; text-transform:uppercase; color:#aeb2ba;">Randevu</div>
+        <div style="font:500 32px 'Space Grotesk',sans-serif; color:#111418; margin-top:8px; letter-spacing:-.01em;">Emre Kaya</div>
+        <div style="display:flex; align-items:center; gap:22px; margin-top:18px;">
+          <div>
+            <div style="font:500 10px 'Space Grotesk',sans-serif; letter-spacing:.1em; text-transform:uppercase; color:#aeb2ba;">Saat</div>
+            <div style="font:500 19px 'Space Grotesk',sans-serif; color:#111418; margin-top:4px;">09:30</div>
+          </div>
+          <div style="width:1px; height:34px; background:#E6E6E8;"></div>
+          <div>
+            <div style="font:500 10px 'Space Grotesk',sans-serif; letter-spacing:.1em; text-transform:uppercase; color:#aeb2ba;">Tarih</div>
+            <div style="font:500 19px 'Space Grotesk',sans-serif; color:#111418; margin-top:4px;">26 Haziran</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin:28px 26px 0; border-top:1px solid #EEEEF0; border-bottom:1px solid #EEEEF0;">
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:18px 0;">
+          <div>
+            <div style="font:500 10px 'Space Grotesk',sans-serif; letter-spacing:.1em; text-transform:uppercase; color:#aeb2ba;">Telefon</div>
+            <div style="font:500 17px 'Hanken Grotesk',sans-serif; color:#111418; margin-top:3px;">0532 412 88 90</div>
+          </div>
+          <button style="display:flex; align-items:center; gap:8px; font:600 12px 'Space Grotesk',sans-serif; letter-spacing:.04em; text-transform:uppercase; color:#111418; background:transparent; border:1px solid #111418; border-radius:10px; padding:11px 18px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 10.8a13 13 0 006.6 6.6l2.2-2.2a1 1 0 011-.24 11 11 0 003.4.55 1 1 0 011 1V20a1 1 0 01-1 1A16 16 0 013 5a1 1 0 011-1h3.5a1 1 0 011 1 11 11 0 00.55 3.4 1 1 0 01-.24 1z"/></svg>Ara</button>
+        </div>
+      </div>
+
+      <button style="margin:28px 26px 0; width:calc(100% - 52px); background:#111418; color:#fff; border:none; border-radius:14px; padding:18px; font:500 15px 'Space Grotesk',sans-serif; letter-spacing:.02em; display:flex; align-items:center; justify-content:center; gap:10px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.4"/><path d="M3.5 19.5a6 6 0 0111 0"/><path d="M18.5 7v5M16 9.5h5"/></svg>
+        Rehbere Kaydet
+      </button>
+
+      <div style="display:flex; gap:14px; padding:18px 26px 0; justify-content:center;">
+        <button style="font:600 12px 'Space Grotesk',sans-serif; letter-spacing:.04em; text-transform:uppercase; color:#5b6068; background:transparent; border:none; display:flex; align-items:center; gap:7px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L18.5 9.5a2 2 0 00-3-3L5 17v3z"/><path d="M13.5 6.5l3 3"/></svg>Düzenle</button>
+        <div style="width:1px; height:16px; background:#E6E6E8; align-self:center;"></div>
+        <button style="font:600 12px 'Space Grotesk',sans-serif; letter-spacing:.04em; text-transform:uppercase; color:#9C3B33; background:transparent; border:none; display:flex; align-items:center; gap:7px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V5a1.5 1.5 0 011.5-1.5h3A1.5 1.5 0 0115 5v2M6 7l1 13a2 2 0 002 2h6a2 2 0 002-2l1-13"/></svg>Sil</button>
+      </div>
+    </div>
+    <div style="position:absolute; bottom:9px; left:50%; transform:translateX(-50%); width:140px; height:5px; border-radius:3px; background:rgba(20,20,30,.5); z-index:60;"></div>
+  </div>
+</div></x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const apptDays = {2:1,9:1,12:1,18:1,24:1,29:1};
+    const sel = 26;
+    const first = new Date(2026,5,1).getDay(); // 0=Sun
+    const lead = (first+6)%7;
+    const days = [];
+    for (let i=0;i<lead;i++) days.push({n:'', today:false, notToday:false, dot:false});
+    for (let d=1; d<=30; d++) {
+      const today = d===sel;
+      days.push({ n:d, today, notToday:!today, dot:(!today && !!apptDays[d]) });
+    }
+    const appts = [
+      { time:'09:30', name:'Emre Kaya',    phone:'0532 412 88 90' },
+      { time:'10:15', name:'Hasan Polat',  phone:'0541 320 11 76' },
+      { time:'11:00', name:'Murat Şahin',  phone:'0505 884 22 13' },
+      { time:'14:00', name:'Ozan Çelik',   phone:'0533 219 67 40' },
+      { time:'15:30', name:'Yusuf Arslan', phone:'0542 770 53 18' },
+    ];
+    return { monthDays: days, appts, widgetAppts: appts.slice(0,2) };
+  }
+}
+</script>
+</body>
+</html>
