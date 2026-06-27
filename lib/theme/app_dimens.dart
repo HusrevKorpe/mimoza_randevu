@@ -40,6 +40,12 @@ abstract final class AppShadows {
   ];
 }
 
+/// Opacity tokens for muted states.
+abstract final class AppOpacity {
+  /// Faded look for an appointment whose time has already passed.
+  static const double past = 0.5;
+}
+
 /// Implicit animation durations — snappy, 60/120fps friendly.
 abstract final class AppDurations {
   static const Duration fast = Duration(milliseconds: 150);

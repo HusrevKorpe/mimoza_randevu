@@ -243,6 +243,9 @@ class _DaySectionState extends State<_DaySection> {
         text: 'Bu güne randevu yok.',
       );
     }
+    // Computed once per build so every row in the list judges "past" against
+    // the same instant.
+    final now = DateTime.now();
     return ListView.builder(
       padding: const EdgeInsets.only(bottom: 96),
       itemCount: items.length,
@@ -259,6 +262,7 @@ class _DaySectionState extends State<_DaySection> {
             confirmDismiss: (_) => _confirmDelete(context, appointment),
             child: AppointmentTile(
               appointment: appointment,
+              past: appointment.isPastAt(now),
               onCall: () => _call(context, appointment.phone),
               onTap: () => Navigator.pushNamed(
                 context,

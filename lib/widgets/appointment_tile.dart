@@ -6,24 +6,27 @@ import 'app_card.dart';
 import 'icon_action_button.dart';
 
 /// One appointment row: time · name + phone · green call button. Optionally
-/// tappable for the detail screen.
+/// tappable for the detail screen. [past] fades the whole row for an
+/// appointment whose time has already elapsed.
 class AppointmentTile extends StatelessWidget {
   const AppointmentTile({
     super.key,
     required this.appointment,
     required this.onCall,
     this.onTap,
+    this.past = false,
   });
 
   final Appointment appointment;
   final VoidCallback onCall;
   final VoidCallback? onTap;
+  final bool past;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final text = context.text;
-    return AppCard(
+    final card = AppCard(
       onTap: onTap,
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
@@ -66,5 +69,6 @@ class AppointmentTile extends StatelessWidget {
         ],
       ),
     );
+    return past ? Opacity(opacity: AppOpacity.past, child: card) : card;
   }
 }

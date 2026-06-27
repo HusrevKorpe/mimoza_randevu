@@ -40,6 +40,10 @@ class Appointment {
   /// The "yyyy-MM-dd" key for [day] (date part only).
   static String dateKeyFor(DateTime day) => _keyFormat.format(day);
 
+  /// Whether this appointment's start has already passed relative to [now].
+  /// Drives the faded look for elapsed rows in the day list.
+  bool isPastAt(DateTime now) => start.isBefore(now);
+
   /// Read a model from a Firestore document. Tolerates missing fields so a
   /// malformed doc degrades gracefully instead of crashing the list.
   factory Appointment.fromDoc(DocumentSnapshot<Map<String, dynamic>> doc) {
