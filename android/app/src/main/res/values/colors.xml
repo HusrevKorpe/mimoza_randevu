@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Widget palette — mirrors Stil A tokens from lib/theme/app_colors.dart. -->
+<resources>
+    <color name="widget_card">#FFFFFFFF</color>
+    <color name="widget_primary">#FF2E55E6</color>
+    <color name="widget_soft_blue">#FFEAF0FF</color>
+    <color name="widget_text">#FF16203A</color>
+    <color name="widget_secondary">#FF46506A</color>
+    <color name="widget_muted">#FF8A94AC</color>
+    <color name="widget_border">#FFE6EBF5</color>
+</resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Home-screen widget strings (Turkish UI). -->
+    <string name="widget_app_title">Berber Defteri</string>
+    <string name="widget_count_label">randevu kaldı</string>
+    <string name="widget_description">Bugünün randevuları</string>
+    <string name="widget_empty_none">Bugün randevu yok</string>
+    <string name="widget_empty_done">Bugünlük tamam 👍</string>
+</resources>

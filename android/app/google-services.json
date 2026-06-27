@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "852303697353",
+    "project_id": "mimozarandevu",
+    "storage_bucket": "mimozarandevu.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:852303697353:android:df4159329e5615f0d48418",
+        "android_client_info": {
+          "package_name": "com.mimoza.randevu"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsILTa8lAXcKe4EFmtlzBJkA_RpGrhN1w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
