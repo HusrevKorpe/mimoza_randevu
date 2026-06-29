@@ -59,10 +59,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyCJHjEUvouvJ4DFa4Ovqvbpq5d826NIiwo',
-    appId: '1:852303697353:ios:1a6ec3a7f4568b25d48418',
+    appId: '1:852303697353:ios:3da1c12eef71266fd48418',
     messagingSenderId: '852303697353',
     projectId: 'mimozarandevu',
     storageBucket: 'mimozarandevu.firebasestorage.app',
-    iosBundleId: 'com.mimoza.randevu',
+    iosBundleId: 'com.korpemuhammed.mimozarandevu',
   );
+
 }

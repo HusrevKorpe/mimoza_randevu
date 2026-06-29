@@ -15,7 +15,7 @@ import '../models/appointment.dart';
 abstract final class WidgetService {
   /// iOS App Group shared between the app and the WidgetKit extension. Must match
   /// the `App Groups` entitlement on both the Runner and RandevuWidget targets.
-  static const String _appGroupId = 'group.com.mimoza.randevu';
+  static const String _appGroupId = 'group.com.korpemuhammed.mimozarandevu.app';
 
   /// iOS widget `kind` — the reload target for [HomeWidget.updateWidget].
   static const String _iOSName = 'RandevuWidget';

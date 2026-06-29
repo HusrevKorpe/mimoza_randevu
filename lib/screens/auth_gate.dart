@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../services/auth_service.dart';
 import '../theme/app_theme.dart';
+import '../widgets/app_splash.dart';
 import 'calendar_screen.dart';
 import 'login_screen.dart';
 
@@ -18,7 +19,7 @@ class AuthGate extends StatelessWidget {
 
     final Widget child;
     if (!auth.isReady) {
-      child = const _Splash(key: ValueKey('splash'));
+      child = const AppSplash(key: ValueKey('splash'));
     } else if (auth.isSignedIn) {
       child = const CalendarScreen(key: ValueKey('calendar'));
     } else {
@@ -26,22 +27,5 @@ class AuthGate extends StatelessWidget {
     }
 
     return AnimatedSwitcher(duration: AppDurations.normal, child: child);
-  }
-}
-
-class _Splash extends StatelessWidget {
-  const _Splash({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: SizedBox(
-          width: 28,
-          height: 28,
-          child: CircularProgressIndicator(strokeWidth: 2.6),
-        ),
-      ),
-    );
   }
 }

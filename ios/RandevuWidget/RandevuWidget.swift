@@ -3,7 +3,7 @@ import WidgetKit
 
 // App Group shared with the Runner app (must match the entitlements on both
 // targets and `WidgetService` in lib/services/widget_service.dart).
-private let appGroupId = "group.com.mimoza.randevu"
+private let appGroupId = "group.com.korpemuhammed.mimozarandevu.app"
 private let deepLink = URL(string: "mimozarandevu://calendar")
 
 // Stil A palette — mirrors lib/theme/app_colors.dart.
