@@ -8,6 +8,19 @@ service cloud.firestore {
       allow read, write: if request.auth != null && request.auth.uid == uid;
     }
 
+    // Each barber can read/write ONLY their own cash subcollection. Still named
+    // `expenses` for backward compatibility; it now holds income + expense.
+    // users/{uid}/expenses/{doc}
+    match /users/{uid}/expenses/{doc} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // Each barber can read/write ONLY their own day notes subcollection.
+    // users/{uid}/notes/{doc}
+    match /users/{uid}/notes/{doc} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+
     // Everything else is denied by default.
   }
 }
