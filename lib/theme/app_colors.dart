@@ -122,8 +122,8 @@ abstract final class AppColors {
   /// Stil A — Sade Modern (mavi), the light palette.
   static const AppPalette light = AppPalette(
     brightness: Brightness.light,
-    background: Color(0xFFEEF2F9),
-    card: Color(0xFFFFFFFF),
+    background: Color(0xFFFFFFFF),
+    card: Color(0xFFF4F6FB),
     primary: Color(0xFF2E55E6),
     softBlue: Color(0xFFEAF0FF),
     textDark: Color(0xFF16203A),

@@ -5,14 +5,13 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import 'dart:async';
-
 import 'app_routes.dart';
 import 'firebase_options.dart';
 import 'screens/appointment_detail_screen.dart';
 import 'screens/auth_gate.dart';
 import 'screens/calendar_screen.dart';
 import 'screens/new_appointment_screen.dart';
+import 'screens/new_cash_screen.dart';
 import 'screens/settings_screen.dart';
 import 'services/auth_service.dart';
 import 'services/notification_service.dart';
@@ -41,34 +40,10 @@ Future<void> main() async {
   runApp(BerberRandevuApp(initialThemeMode: initialMode));
 }
 
-class BerberRandevuApp extends StatefulWidget {
+class BerberRandevuApp extends StatelessWidget {
   const BerberRandevuApp({super.key, required this.initialThemeMode});
 
   final ThemeMode initialThemeMode;
-
-  @override
-  State<BerberRandevuApp> createState() => _BerberRandevuAppState();
-}
-
-class _BerberRandevuAppState extends State<BerberRandevuApp> {
-  final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
-  StreamSubscription<Uri?>? _widgetClicks;
-
-  @override
-  void initState() {
-    super.initState();
-    // Tapping the widget brings the app forward — drop any pushed screens so it
-    // always lands on the Randevu Defteri (the first route under AuthGate).
-    _widgetClicks = WidgetService.clicks.listen((_) {
-      _navigatorKey.currentState?.popUntil((route) => route.isFirst);
-    });
-  }
-
-  @override
-  void dispose() {
-    _widgetClicks?.cancel();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +51,7 @@ class _BerberRandevuAppState extends State<BerberRandevuApp> {
       providers: [
         ChangeNotifierProvider<AuthService>(create: (_) => AuthService()),
         ChangeNotifierProvider<ThemeController>(
-          create: (_) => ThemeController(widget.initialThemeMode),
+          create: (_) => ThemeController(initialThemeMode),
         ),
         ChangeNotifierProvider<SettingsController>(
           create: (_) => SettingsController(),
@@ -88,7 +63,6 @@ class _BerberRandevuAppState extends State<BerberRandevuApp> {
         builder: (context, themeController, _) => MaterialApp(
           title: 'Berber Randevu Defteri',
           debugShowCheckedModeBanner: false,
-          navigatorKey: _navigatorKey,
           theme: AppTheme.light(),
           darkTheme: AppTheme.dark(),
           themeMode: themeController.mode,
@@ -102,12 +76,14 @@ class _BerberRandevuAppState extends State<BerberRandevuApp> {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          // AuthGate decides between splash / login / calendar; it also serves
+          // AuthGate decides between splash / login / HomeShell; it also serves
           // as the '/' route, so the route table only holds pushable screens.
+          // HomeShell owns the widget deep link (pop to it, select Defter tab).
           home: const AuthGate(),
           routes: {
             AppRoutes.calendar: (_) => const CalendarScreen(),
             AppRoutes.newAppointment: (_) => const NewAppointmentScreen(),
+            AppRoutes.newCash: (_) => const NewCashScreen(),
             AppRoutes.detail: (_) => const AppointmentDetailScreen(),
             AppRoutes.settings: (_) => const SettingsScreen(),
           },

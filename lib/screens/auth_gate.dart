@@ -4,12 +4,12 @@ import 'package:provider/provider.dart';
 import '../services/auth_service.dart';
 import '../theme/app_theme.dart';
 import '../widgets/app_splash.dart';
-import 'calendar_screen.dart';
+import 'home_shell.dart';
 import 'login_screen.dart';
 
 /// Top-level gate. Shows a splash until the persisted session is restored, then
-/// the Randevu Defteri when signed in, or the login screen otherwise. Listens to
-/// [AuthService] so sign-in / sign-out swap the screen automatically.
+/// the [HomeShell] (Defter + Giderler tabs) when signed in, or the login screen
+/// otherwise. Listens to [AuthService] so sign-in / sign-out swap automatically.
 class AuthGate extends StatelessWidget {
   const AuthGate({super.key});
 
@@ -21,7 +21,7 @@ class AuthGate extends StatelessWidget {
     if (!auth.isReady) {
       child = const AppSplash(key: ValueKey('splash'));
     } else if (auth.isSignedIn) {
-      child = const CalendarScreen(key: ValueKey('calendar'));
+      child = const HomeShell(key: ValueKey('home'));
     } else {
       child = const LoginScreen(key: ValueKey('login'));
     }

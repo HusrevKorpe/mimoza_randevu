@@ -10,6 +10,9 @@ abstract final class AppRoutes {
   /// New appointment form.
   static const String newAppointment = '/new';
 
+  /// New / edit cash entry form (income or expense).
+  static const String newCash = '/cash/new';
+
   /// Appointment detail.
   static const String detail = '/detail';
 

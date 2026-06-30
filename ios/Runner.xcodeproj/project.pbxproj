@@ -610,8 +610,10 @@
 			baseConfigurationReference = CB5E1F96756E8B16CC01AD4E /* Pods-RunnerTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = VJ96R83FLT;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.korpemuhammed.mimozarandevu.RunnerTests;
@@ -628,8 +630,10 @@
 			baseConfigurationReference = 45550A0BD4019D3F4E737BA4 /* Pods-RunnerTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = VJ96R83FLT;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.korpemuhammed.mimozarandevu.RunnerTests;
@@ -644,8 +648,10 @@
 			baseConfigurationReference = CEAE2AD509993CB76E54DF14 /* Pods-RunnerTests.profile.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = VJ96R83FLT;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.korpemuhammed.mimozarandevu.RunnerTests;
@@ -664,7 +670,7 @@
 				CODE_SIGN_ENTITLEMENTS = RandevuWidget/RandevuWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = XZU8N95T32;
+				DEVELOPMENT_TEAM = VJ96R83FLT;
 				ENABLE_BITCODE = NO;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = RandevuWidget/Info.plist;
@@ -695,7 +701,7 @@
 				CODE_SIGN_ENTITLEMENTS = RandevuWidget/RandevuWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = XZU8N95T32;
+				DEVELOPMENT_TEAM = VJ96R83FLT;
 				ENABLE_BITCODE = NO;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = RandevuWidget/Info.plist;
@@ -889,7 +895,7 @@
 				CODE_SIGN_ENTITLEMENTS = RandevuWidget/RandevuWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = XZU8N95T32;
+				DEVELOPMENT_TEAM = VJ96R83FLT;
 				ENABLE_BITCODE = NO;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = RandevuWidget/Info.plist;
